@@ -15,6 +15,7 @@
       --color-text: #1e293b;
       --color-text-secondary: #64748b;
       --color-text-muted: #94a3b8;
+
       --status-received-bg: #fef3c7;
       --status-received-text: #92400e;
       --status-received-border: #f59e0b;
@@ -24,29 +25,37 @@
       --status-executed-bg: #d1fae5;
       --status-executed-text: #065f46;
       --status-executed-border: #10b981;
+
       --color-danger: #dc2626;
       --color-danger-hover: #b91c1c;
       --color-warning: #f59e0b;
       --color-warning-bg: #fffbeb;
       --color-warning-text: #92400e;
       --color-success: #10b981;
+
       --max-width: 1200px;
       --radius: 8px;
       --radius-sm: 4px;
       --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
       --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
       --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+
       --space-xs: 4px;
       --space-sm: 8px;
       --space-md: 16px;
       --space-lg: 24px;
       --space-xl: 32px;
+
       --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
       --font-size-sm: 0.8125rem;
       --font-size-base: 0.9375rem;
       --font-size-lg: 1.125rem;
       --font-size-xl: 1.5rem;
+
+      --chart-bar-height: 6px;
     }
+
+    /* ── Dark Mode ── */
     [data-theme="dark"] {
       --color-primary: #5b9bd5;
       --color-primary-hover: #7ab3e8;
@@ -57,152 +66,1305 @@
       --color-text: #e2e8f0;
       --color-text-secondary: #94a3b8;
       --color-text-muted: #64748b;
+
       --status-received-bg: #422006;
       --status-received-text: #fbbf24;
+      --status-received-border: #f59e0b;
       --status-review-bg: #172554;
       --status-review-text: #93c5fd;
+      --status-review-border: #3b82f6;
       --status-executed-bg: #052e16;
       --status-executed-text: #6ee7b7;
+      --status-executed-border: #10b981;
+
+      --color-danger: #ef4444;
+      --color-danger-hover: #f87171;
       --color-warning-bg: #422006;
       --color-warning-text: #fbbf24;
+
       --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
       --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
       --shadow-lg: 0 8px 24px rgba(0,0,0,0.4);
     }
-    [data-theme="dark"] .modal-overlay { background: rgba(0, 0, 0, 0.65); }
-    [data-theme="dark"] .btn-secondary { background: var(--color-surface); border-color: var(--color-border); color: var(--color-text); }
-    [data-theme="dark"] .search-wrapper input, [data-theme="dark"] .toolbar select { background: var(--color-surface); }
-    [data-theme="dark"] .contract-table th.sortable:hover { background: #2d3d52; }
+
+    [data-theme="dark"] .search-wrapper input,
+    [data-theme="dark"] .toolbar select {
+      background: var(--color-surface);
+    }
+
+    [data-theme="dark"] .contract-table th.sortable:hover {
+      background: #2d3d52;
+    }
+
+    [data-theme="dark"] .modal-overlay {
+      background: rgba(0, 0, 0, 0.65);
+    }
+
+    [data-theme="dark"] .btn-secondary {
+      background: var(--color-surface);
+      border-color: var(--color-border);
+      color: var(--color-text);
+    }
+
+    [data-theme="dark"] .btn-icon:hover {
+      background: var(--color-primary-light);
+    }
+    [data-theme="dark"] .btn-icon.btn-delete:hover {
+      background: #3b1111;
+    }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font-family); font-size: var(--font-size-base); color: var(--color-text); background: var(--color-bg); line-height: 1.5; transition: background-color 0.3s ease, color 0.3s ease; }
-    .app-container { max-width: var(--max-width); margin: 0 auto; padding: var(--space-lg); }
-    .app-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-md); margin-bottom: var(--space-xl); }
-    .app-title { font-size: var(--font-size-xl); font-weight: 700; color: var(--color-primary); display: flex; align-items: center; gap: var(--space-sm); }
-    .app-title svg { width: 28px; height: 28px; }
-    .header-actions { display: flex; gap: var(--space-sm); align-items: center; }
-    .sync-status { display: flex; align-items: center; gap: 6px; font-size: var(--font-size-sm); color: var(--color-text-muted); padding: 4px 10px; background: var(--color-surface); border-radius: 20px; border: 1px solid var(--color-border); }
-    .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-success); }
-    .sync-dot.syncing { background: var(--color-warning); animation: pulse 1s infinite; }
-    .sync-dot.error { background: var(--color-danger); }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-    .btn { display: inline-flex; align-items: center; gap: var(--space-xs); padding: 8px 16px; border: none; border-radius: var(--radius-sm); font-family: var(--font-family); font-size: var(--font-size-sm); font-weight: 500; cursor: pointer; transition: background-color 0.15s ease; white-space: nowrap; }
-    .btn-primary { background: var(--color-primary); color: #fff; }
+
+    body {
+      font-family: var(--font-family);
+      font-size: var(--font-size-base);
+      color: var(--color-text);
+      background: var(--color-bg);
+      line-height: 1.5;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .app-container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: var(--space-lg);
+    }
+
+    /* ── Header ── */
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      margin-bottom: var(--space-xl);
+    }
+
+    .app-title {
+      font-size: var(--font-size-xl);
+      font-weight: 700;
+      color: var(--color-primary);
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .app-title svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: var(--space-sm);
+      align-items: center;
+    }
+
+    /* ── Sync Status ── */
+    .sync-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: var(--font-size-sm);
+      color: var(--color-text-muted);
+      padding: 4px 10px;
+      background: var(--color-surface);
+      border-radius: 20px;
+      border: 1px solid var(--color-border);
+    }
+    .sync-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-success);
+    }
+    .sync-dot.syncing {
+      background: var(--color-warning);
+      animation: pulse 1s infinite;
+    }
+    .sync-dot.offline {
+      background: var(--color-text-muted);
+    }
+    .sync-dot.error {
+      background: var(--color-danger);
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* ── Dark Mode Toggle ── */
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 6px 10px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      line-height: 1;
+      color: var(--color-text-secondary);
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+    .theme-toggle:hover {
+      background: var(--color-primary-light);
+      border-color: var(--color-primary);
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: 8px 16px;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-family);
+      font-size: var(--font-size-sm);
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: #fff;
+    }
     .btn-primary:hover { background: var(--color-primary-hover); }
-    .btn-secondary { background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); }
+
+    .btn-secondary {
+      background: var(--color-surface);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
     .btn-secondary:hover { background: var(--color-primary-light); }
-    .btn-danger { background: var(--color-danger); color: #fff; }
+
+    .btn-danger {
+      background: var(--color-danger);
+      color: #fff;
+    }
     .btn-danger:hover { background: var(--color-danger-hover); }
-    .btn-icon { padding: 4px 8px; background: transparent; color: var(--color-text-secondary); font-size: 1rem; border: 1px solid transparent; border-radius: var(--radius-sm); }
-    .btn-icon:hover { background: var(--color-primary-light); color: var(--color-primary); }
-    .btn-icon.btn-delete:hover { background: #fee2e2; color: var(--color-danger); }
-    .theme-toggle { background: none; border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 6px 10px; cursor: pointer; font-size: 1.1rem; line-height: 1; color: var(--color-text-secondary); }
-    .theme-toggle:hover { background: var(--color-primary-light); border-color: var(--color-primary); }
-    .dashboard { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-md); margin-bottom: var(--space-md); }
-    .stat-card { background: var(--color-surface); border-radius: var(--radius); padding: var(--space-lg); box-shadow: var(--shadow-sm); border-left: 4px solid var(--color-border); display: flex; flex-direction: column; gap: var(--space-xs); }
+
+    .btn-icon {
+      padding: 4px 8px;
+      background: transparent;
+      color: var(--color-text-secondary);
+      font-size: 1rem;
+      border: 1px solid transparent;
+      border-radius: var(--radius-sm);
+    }
+    .btn-icon:hover {
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+    }
+    .btn-icon.btn-delete:hover {
+      background: #fee2e2;
+      color: var(--color-danger);
+    }
+
+    /* ── Dashboard ── */
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+
+    .stat-card {
+      background: var(--color-surface);
+      border-radius: var(--radius);
+      padding: var(--space-lg);
+      box-shadow: var(--shadow-sm);
+      border-left: 4px solid var(--color-border);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
     .stat-card.stat-total { border-left-color: var(--color-primary); }
     .stat-card.stat-received { border-left-color: var(--status-received-border); }
     .stat-card.stat-review { border-left-color: var(--status-review-border); }
     .stat-card.stat-executed { border-left-color: var(--status-executed-border); }
-    .stat-number { font-size: 2rem; font-weight: 700; line-height: 1; }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1;
+    }
     .stat-total .stat-number { color: var(--color-primary); }
     .stat-received .stat-number { color: var(--status-received-text); }
     .stat-review .stat-number { color: var(--status-review-text); }
     .stat-executed .stat-number { color: var(--status-executed-text); }
-    .stat-label { font-size: var(--font-size-sm); color: var(--color-text-secondary); font-weight: 500; }
-    .toolbar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md); }
-    .toolbar-left { display: flex; flex-wrap: wrap; gap: var(--space-sm); flex: 1; }
-    .search-wrapper { position: relative; flex: 1; min-width: 200px; max-width: 320px; }
-    .search-wrapper::before { content: '🔍'; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--color-text-muted); font-size: var(--font-size-sm); pointer-events: none; }
-    .search-wrapper input { width: 100%; padding: 8px 12px 8px 30px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); font-family: var(--font-family); font-size: var(--font-size-sm); color: var(--color-text); background: var(--color-surface); }
-    .search-wrapper input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 2px rgba(59,110,165,0.15); }
-    .search-wrapper input::placeholder { color: var(--color-text-muted); }
-    .toolbar select { padding: 8px 12px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); font-family: var(--font-family); font-size: var(--font-size-sm); color: var(--color-text); background: var(--color-surface); cursor: pointer; }
-    .toolbar select:focus { outline: none; border-color: var(--color-primary); }
-    .toolbar-right { display: flex; gap: var(--space-sm); align-items: center; }
-    .table-container { background: var(--color-surface); border-radius: var(--radius); box-shadow: var(--shadow-sm); overflow-x: auto; }
-    .contract-table { width: 100%; border-collapse: collapse; }
-    .contract-table th, .contract-table td { padding: 12px 14px; text-align: left; white-space: nowrap; }
-    .contract-table thead { background: var(--color-primary-light); border-bottom: 2px solid var(--color-border); }
-    .contract-table th { font-size: var(--font-size-sm); font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.03em; user-select: none; }
-    .contract-table th.sortable { cursor: pointer; }
-    .contract-table th.sortable:hover { background: #d6e4f0; }
-    .contract-table th.sort-active { color: var(--color-primary); }
-    .sort-icon { font-size: 0.7rem; margin-left: 2px; }
-    .contract-table tbody tr { border-bottom: 1px solid var(--color-border); cursor: pointer; transition: background-color 0.1s ease; }
-    .contract-table tbody tr:hover { background: var(--color-primary-light); }
-    .contract-table tbody tr:last-child { border-bottom: none; }
-    .contract-table td { font-size: var(--font-size-sm); color: var(--color-text); }
-    .col-name { max-width: 200px; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
-    .col-actions { text-align: center; white-space: nowrap; }
-    .col-actions-body { display: flex; gap: var(--space-xs); justify-content: center; }
-    .btn-pin { cursor: pointer; font-size: 1rem; background: transparent; border: none; padding: 2px 4px; color: var(--color-text-muted); }
-    .btn-pin:hover { color: var(--color-warning); }
-    .btn-pin.pinned { color: var(--color-warning); }
-    .contract-table tbody tr.row-pinned { background: var(--color-warning-bg); }
-    .contract-table tbody tr.row-pinned:hover { background: #fef3c7; }
-    [data-theme="dark"] .contract-table tbody tr.row-pinned { background: rgba(245, 158, 11, 0.08); }
-    .aging-badge { display: inline-flex; align-items: center; gap: 3px; font-size: 0.7rem; padding: 1px 6px; border-radius: 8px; font-weight: 600; margin-left: 6px; }
-    .aging-warn { background: #fef3c7; color: #92400e; }
-    .aging-critical { background: #fee2e2; color: #991b1b; }
-    [data-theme="dark"] .aging-warn { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
-    [data-theme="dark"] .aging-critical { background: rgba(239, 68, 68, 0.15); color: #f87171; }
-    .status-badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: var(--font-size-sm); font-weight: 600; white-space: nowrap; }
-    .status-received { background: var(--status-received-bg); color: var(--status-received-text); }
-    .status-review { background: var(--status-review-bg); color: var(--status-review-text); }
-    .status-executed { background: var(--status-executed-bg); color: var(--status-executed-text); }
-    .empty-state { padding: var(--space-xl) var(--space-lg); text-align: center; color: var(--color-text-muted); }
-    .empty-state p { font-size: var(--font-size-base); margin-bottom: var(--space-xs); }
-    .empty-state .empty-hint { font-size: var(--font-size-sm); }
-    .pagination { display: flex; justify-content: space-between; align-items: center; padding: var(--space-md); border-top: 1px solid var(--color-border); font-size: var(--font-size-sm); color: var(--color-text-secondary); }
-    .pagination-info { flex: 1; }
-    .pagination-controls { display: flex; align-items: center; gap: var(--space-xs); }
-    .pagination-controls .btn { padding: 4px 10px; font-size: var(--font-size-sm); }
-    .pagination-controls .btn:disabled { opacity: 0.4; cursor: default; pointer-events: none; }
-    .page-number { padding: 4px 10px; font-size: var(--font-size-sm); border-radius: var(--radius-sm); cursor: pointer; border: 1px solid transparent; background: transparent; color: var(--color-text-secondary); font-family: var(--font-family); }
-    .page-number:hover { background: var(--color-primary-light); }
-    .page-number.active { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
-    .pagination-per-page { display: flex; align-items: center; gap: var(--space-xs); }
-    .pagination-per-page select { padding: 3px 6px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); font-family: var(--font-family); font-size: var(--font-size-sm); color: var(--color-text); background: var(--color-surface); }
-    .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.2s ease, visibility 0.2s ease; padding: var(--space-md); }
-    .modal-overlay.visible { opacity: 1; visibility: visible; pointer-events: auto; }
-    .modal { background: var(--color-surface); border-radius: var(--radius); box-shadow: var(--shadow-lg); max-width: 600px; width: 100%; max-height: calc(100vh - 40px); display: flex; flex-direction: column; transform: translateY(-10px); transition: transform 0.2s ease; }
-    .modal-overlay.visible .modal { transform: translateY(0); }
-    .modal-sm { max-width: 420px; }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; padding: var(--space-lg) var(--space-lg) var(--space-md); border-bottom: 1px solid var(--color-border); }
-    .modal-header h2 { font-size: var(--font-size-lg); font-weight: 600; }
-    .modal-close { background: none; border: none; font-size: 1.5rem; color: var(--color-text-secondary); cursor: pointer; padding: 0 4px; line-height: 1; }
-    .modal-close:hover { color: var(--color-text); }
-    .modal-body { padding: var(--space-lg); overflow-y: auto; flex: 1; }
-    .modal-footer { display: flex; justify-content: flex-end; gap: var(--space-sm); padding: var(--space-md) var(--space-lg) var(--space-lg); border-top: 1px solid var(--color-border); }
-    .form-group { margin-bottom: var(--space-md); }
-    .form-group label { display: block; font-size: var(--font-size-sm); font-weight: 600; color: var(--color-text-secondary); margin-bottom: var(--space-xs); }
-    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px 12px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); font-family: var(--font-family); font-size: var(--font-size-base); color: var(--color-text); background: var(--color-surface); }
-    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 2px rgba(59,110,165,0.15); }
-    .form-group textarea { resize: vertical; min-height: 80px; }
-    .form-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); }
-    .form-row-2col { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-md); }
-    .form-hint { display: block; font-size: var(--font-size-sm); color: var(--color-text-muted); margin-top: var(--space-xs); }
-    .status-preview-row { display: flex; align-items: center; gap: var(--space-sm); }
-    .date-warning { display: none; align-items: center; gap: var(--space-xs); font-size: var(--font-size-sm); color: var(--color-warning-text); background: var(--color-warning-bg); padding: 6px 10px; border-radius: var(--radius-sm); border: 1px solid var(--color-warning); margin-top: var(--space-xs); }
-    .date-warning.visible { display: flex; }
-    .toast { position: fixed; bottom: var(--space-lg); right: var(--space-lg); background: var(--color-text); color: #fff; padding: 12px 20px; border-radius: var(--radius); font-size: var(--font-size-sm); box-shadow: var(--shadow-md); z-index: 2000; opacity: 0; transform: translateY(10px); transition: opacity 0.2s ease, transform 0.2s ease; pointer-events: none; }
-    .toast.visible { opacity: 1; transform: translateY(0); }
-    @media (max-width: 768px) {
-      .dashboard { grid-template-columns: repeat(2, 1fr); }
-      .form-row, .form-row-2col { grid-template-columns: 1fr; }
-      .toolbar { flex-direction: column; align-items: stretch; }
-      .toolbar-left { flex-direction: column; }
-      .search-wrapper { max-width: none; }
+
+    .stat-label {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      font-weight: 500;
     }
+
+    /* ── Status Chart ── */
+    .chart-section {
+      background: var(--color-surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-md);
+    }
+    .chart-title {
+      font-size: var(--font-size-base);
+      font-weight: 600;
+      color: var(--color-text);
+    }
+    .chart-legend {
+      display: flex;
+      gap: var(--space-md);
+    }
+    .chart-legend-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+    }
+    .chart-legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .chart-stacked-bar {
+      display: flex;
+      height: 28px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--color-border);
+      gap: 2px;
+    }
+    .chart-stacked-bar > div {
+      transition: width 0.4s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      color: #fff;
+      min-width: 0;
+    }
+    .chart-stacked-bar > div span {
+      overflow: hidden;
+      text-overflow: clip;
+    }
+    .chart-bar-received { background: var(--status-received-border); }
+    .chart-bar-review { background: var(--status-review-border); }
+    .chart-bar-executed { background: var(--status-executed-border); }
+
+    .chart-processing {
+      display: flex;
+      gap: var(--space-md);
+      margin-top: var(--space-lg);
+      padding-top: var(--space-lg);
+      border-top: 1px solid var(--color-border);
+    }
+    .chart-metric {
+      flex: 1;
+      text-align: center;
+      padding: var(--space-md);
+      background: var(--color-bg);
+      border-radius: var(--radius-sm);
+    }
+    .chart-metric-number {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      line-height: 1.2;
+    }
+    .chart-metric-label {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-muted);
+      margin-top: 2px;
+    }
+
+    .chart-monthly {
+      margin-top: var(--space-lg);
+      padding-top: var(--space-lg);
+      border-top: 1px solid var(--color-border);
+    }
+    .chart-monthly-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      cursor: pointer;
+      user-select: none;
+      margin-bottom: var(--space-sm);
+    }
+    .chart-monthly-header:hover {
+      color: var(--color-primary);
+    }
+    .chart-toggle-arrow {
+      font-size: 0.75rem;
+      transition: transform 0.2s ease;
+      display: inline-block;
+      color: var(--color-text-muted);
+    }
+    .chart-toggle-arrow.expanded {
+      transform: rotate(90deg);
+    }
+    .chart-monthly-title {
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      color: var(--color-text-secondary);
+    }
+    .chart-monthly-rows {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .chart-monthly-rows.collapsed {
+      display: none;
+    }
+    .chart-monthly-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .chart-monthly-label {
+      width: 65px;
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .chart-monthly-bar-track {
+      flex: 1;
+      height: var(--chart-bar-height);
+      background: var(--color-border);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .chart-monthly-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: var(--color-primary);
+      transition: width 0.4s ease;
+    }
+    .chart-monthly-count {
+      width: 24px;
+      font-size: var(--font-size-sm);
+      color: var(--color-text-muted);
+      text-align: left;
+      flex-shrink: 0;
+    }
+
+    .chart-empty {
+      text-align: center;
+      padding: var(--space-lg);
+      color: var(--color-text-muted);
+      font-size: var(--font-size-sm);
+    }
+
+    /* ── Toolbar ── */
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+
+    .toolbar-left {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      flex: 1;
+    }
+
+    .search-wrapper {
+      position: relative;
+      flex: 1;
+      min-width: 200px;
+      max-width: 320px;
+    }
+
+    .search-wrapper::before {
+      content: '\1F50D';
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--color-text-muted);
+      font-size: var(--font-size-sm);
+      pointer-events: none;
+    }
+
+    .search-wrapper input {
+      width: 100%;
+      padding: 8px 12px 8px 30px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-family);
+      font-size: var(--font-size-sm);
+      color: var(--color-text);
+      background: var(--color-surface);
+      transition: border-color 0.15s ease;
+    }
+    .search-wrapper input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 2px rgba(59,110,165,0.15);
+    }
+    .search-wrapper input::placeholder { color: var(--color-text-muted); }
+
+    .toolbar select {
+      padding: 8px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-family);
+      font-size: var(--font-size-sm);
+      color: var(--color-text);
+      background: var(--color-surface);
+      cursor: pointer;
+    }
+    .toolbar select:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 2px rgba(59,110,165,0.15);
+    }
+
+    .toolbar-right {
+      display: flex;
+      gap: var(--space-sm);
+      align-items: center;
+    }
+
+    /* ── Bulk Actions Bar ── */
+    .bulk-bar {
+      display: none;
+      align-items: center;
+      gap: var(--space-md);
+      padding: 10px var(--space-md);
+      background: var(--color-primary-light);
+      border: 1px solid var(--color-primary);
+      border-radius: var(--radius-sm);
+      margin-bottom: var(--space-md);
+    }
+    .bulk-bar.visible {
+      display: flex;
+    }
+    .bulk-bar-count {
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      color: var(--color-primary);
+    }
+    .bulk-bar-actions {
+      display: flex;
+      gap: var(--space-sm);
+    }
+
+    /* ── Table ── */
+    .table-container {
+      background: var(--color-surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      overflow-x: auto;
+    }
+
+    .contract-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .contract-table th,
+    .contract-table td {
+      padding: 12px 14px;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .contract-table thead {
+      background: var(--color-primary-light);
+      border-bottom: 2px solid var(--color-border);
+    }
+
+    .contract-table th {
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      user-select: none;
+    }
+
+    .contract-table th.sortable {
+      cursor: pointer;
+      transition: background-color 0.1s ease;
+    }
+    .contract-table th.sortable:hover {
+      background: #d6e4f0;
+    }
+    .contract-table th.sort-active {
+      color: var(--color-primary);
+    }
+
+    .sort-icon {
+      font-size: 0.7rem;
+      margin-left: 2px;
+    }
+
+    .contract-table tbody tr {
+      border-bottom: 1px solid var(--color-border);
+      cursor: pointer;
+      transition: background-color 0.1s ease;
+    }
+    .contract-table tbody tr:hover {
+      background: var(--color-primary-light);
+    }
+    .contract-table tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    .contract-table td {
+      font-size: var(--font-size-sm);
+      color: var(--color-text);
+    }
+
+    .col-name {
+      max-width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 500;
+    }
+
+    .col-actions {
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .col-actions-body {
+      display: flex;
+      gap: var(--space-xs);
+      justify-content: center;
+    }
+
+    /* ── Checkbox column ── */
+    .col-check {
+      width: 40px;
+      text-align: center;
+    }
+    .col-check input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+      accent-color: var(--color-primary);
+    }
+
+    /* ── Pin / Star ── */
+    .btn-pin {
+      cursor: pointer;
+      font-size: 1rem;
+      background: transparent;
+      border: none;
+      padding: 2px 4px;
+      color: var(--color-text-muted);
+      transition: color 0.15s ease;
+    }
+    .btn-pin:hover {
+      color: var(--color-warning);
+    }
+    .btn-pin.pinned {
+      color: var(--color-warning);
+    }
+
+    /* Pinned row highlight */
+    .contract-table tbody tr.row-pinned {
+      background: var(--color-warning-bg);
+    }
+    .contract-table tbody tr.row-pinned:hover {
+      background: #fef3c7;
+    }
+    [data-theme="dark"] .contract-table tbody tr.row-pinned {
+      background: rgba(245, 158, 11, 0.08);
+    }
+    [data-theme="dark"] .contract-table tbody tr.row-pinned:hover {
+      background: rgba(245, 158, 11, 0.14);
+    }
+
+    /* ── Aging Indicator ── */
+    .aging-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.7rem;
+      padding: 1px 6px;
+      border-radius: 8px;
+      font-weight: 600;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .aging-warn {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    .aging-critical {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    [data-theme="dark"] .aging-warn {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+    }
+    [data-theme="dark"] .aging-critical {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+    }
+
+    /* ── Date Validation Warning ── */
+    .date-warning {
+      display: none;
+      align-items: center;
+      gap: var(--space-xs);
+      font-size: var(--font-size-sm);
+      color: var(--color-warning-text);
+      background: var(--color-warning-bg);
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-warning);
+      margin-top: var(--space-xs);
+    }
+    .date-warning.visible {
+      display: flex;
+    }
+
+    /* ── Status Badge ── */
+    .status-badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .status-received {
+      background: var(--status-received-bg);
+      color: var(--status-received-text);
+    }
+    .status-review {
+      background: var(--status-review-bg);
+      color: var(--status-review-text);
+    }
+    .status-executed {
+      background: var(--status-executed-bg);
+      color: var(--status-executed-text);
+    }
+
+    /* ── Empty State ── */
+    .empty-state {
+      padding: var(--space-xl) var(--space-lg);
+      text-align: center;
+      color: var(--color-text-muted);
+    }
+    .empty-state p {
+      font-size: var(--font-size-base);
+      margin-bottom: var(--space-xs);
+    }
+    .empty-state .empty-hint {
+      font-size: var(--font-size-sm);
+    }
+
+    /* ── Pagination ── */
+    .pagination {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-md);
+      border-top: 1px solid var(--color-border);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+    }
+    .pagination-info {
+      flex: 1;
+    }
+    .pagination-controls {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+    .pagination-controls .btn {
+      padding: 4px 10px;
+      font-size: var(--font-size-sm);
+    }
+    .pagination-controls .btn:disabled {
+      opacity: 0.4;
+      cursor: default;
+      pointer-events: none;
+    }
+    .page-number {
+      padding: 4px 10px;
+      font-size: var(--font-size-sm);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--color-text-secondary);
+      font-family: var(--font-family);
+    }
+    .page-number:hover {
+      background: var(--color-primary-light);
+    }
+    .page-number.active {
+      background: var(--color-primary);
+      color: #fff;
+      border-color: var(--color-primary);
+    }
+    .pagination-per-page {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+    .pagination-per-page select {
+      padding: 3px 6px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-family);
+      font-size: var(--font-size-sm);
+      color: var(--color-text);
+      background: var(--color-surface);
+    }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+      padding: var(--space-md);
+    }
+    .modal-overlay.visible {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .modal {
+      background: var(--color-surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      max-width: 600px;
+      width: 100%;
+      max-height: calc(100vh - 40px);
+      display: flex;
+      flex-direction: column;
+      transform: translateY(-10px);
+      transition: transform 0.2s ease;
+    }
+    .modal-overlay.visible .modal {
+      transform: translateY(0);
+    }
+
+    .modal-sm {
+      max-width: 420px;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-lg) var(--space-lg) var(--space-md);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .modal-header h2 {
+      font-size: var(--font-size-lg);
+      font-weight: 600;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      padding: 0 4px;
+      line-height: 1;
+    }
+    .modal-close:hover { color: var(--color-text); }
+
+    .modal-body {
+      padding: var(--space-lg);
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: var(--space-sm);
+      padding: var(--space-md) var(--space-lg) var(--space-lg);
+      border-top: 1px solid var(--color-border);
+    }
+
+    /* ── Form ── */
+    .form-group {
+      margin-bottom: var(--space-md);
+    }
+
+    .form-group label {
+      display: block;
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-xs);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-family);
+      font-size: var(--font-size-base);
+      color: var(--color-text);
+      background: var(--color-surface);
+      transition: border-color 0.15s ease;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 2px rgba(59,110,165,0.15);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+    }
+
+    .form-row-2col {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-md);
+    }
+
+    .form-hint {
+      display: block;
+      font-size: var(--font-size-sm);
+      color: var(--color-text-muted);
+      margin-top: var(--space-xs);
+    }
+
+    .status-preview-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    /* ── Add Type Inline ── */
+    .add-type-row {
+      display: flex;
+      gap: var(--space-xs);
+      margin-top: var(--space-xs);
+    }
+    .add-type-row input {
+      flex: 1;
+      padding: 6px 10px;
+      border: 1px solid var(--color-primary);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-family);
+      font-size: var(--font-size-sm);
+      color: var(--color-text);
+    }
+    .add-type-row input:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(59,110,165,0.15);
+    }
+    .add-type-row .btn {
+      padding: 6px 12px;
+    }
+
+    /* ── Settings Type List ── */
+    .type-list {
+      list-style: none;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      max-height: 320px;
+      overflow-y: auto;
+    }
+    .type-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--color-border);
+      font-size: var(--font-size-base);
+    }
+    .type-item:last-child { border-bottom: none; }
+    .type-item:hover { background: var(--color-primary-light); }
+
+    .type-item-move {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      flex-shrink: 0;
+    }
+    .type-item-move .btn-icon {
+      padding: 0 4px;
+      font-size: 0.6rem;
+      line-height: 1;
+      color: var(--color-text-muted);
+    }
+    .type-item-move .btn-icon:hover:not(:disabled) {
+      color: var(--color-primary);
+    }
+    .type-item-move .btn-icon:disabled,
+    .type-item-move .btn-disabled {
+      opacity: 0.25;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .type-item-name {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .type-item-input {
+      flex: 1;
+      padding: 4px 8px;
+      border: 1px solid var(--color-primary);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-family);
+      font-size: var(--font-size-sm);
+    }
+    .type-item-input:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(59,110,165,0.15);
+    }
+    .type-item-actions {
+      display: flex;
+      gap: 2px;
+      flex-shrink: 0;
+    }
+    .type-item-actions .btn-icon {
+      font-size: var(--font-size-sm);
+      padding: 2px 6px;
+    }
+    .type-item-count {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-muted);
+      flex-shrink: 0;
+    }
+
+    .settings-add-row {
+      display: flex;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+    .settings-add-row input {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-family);
+      font-size: var(--font-size-base);
+      color: var(--color-text);
+    }
+    .settings-add-row input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 2px rgba(59,110,165,0.15);
+    }
+
+    .settings-hint {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-md);
+    }
+
+    /* ── Toast / notification ── */
+    .toast {
+      position: fixed;
+      bottom: var(--space-lg);
+      right: var(--space-lg);
+      background: var(--color-text);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: var(--radius);
+      font-size: var(--font-size-sm);
+      box-shadow: var(--shadow-md);
+      z-index: 2000;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      pointer-events: none;
+    }
+    .toast.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Print Styles ── */
+    @media print {
+      body {
+        background: #fff !important;
+        color: #000 !important;
+        font-size: 11pt;
+      }
+      .app-container {
+        max-width: none;
+        padding: 0;
+      }
+      .app-header .header-actions,
+      .toolbar,
+      .bulk-bar,
+      .pagination,
+      .col-actions,
+      .col-check,
+      .chart-section,
+      .toast,
+      .modal-overlay,
+      .theme-toggle,
+      .btn-pin {
+        display: none !important;
+      }
+      .app-header {
+        margin-bottom: 12pt;
+      }
+      .app-title {
+        color: #000 !important;
+        font-size: 16pt;
+      }
+      .dashboard {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8pt;
+        margin-bottom: 12pt;
+      }
+      .stat-card {
+        padding: 8pt;
+        box-shadow: none;
+        border: 1px solid #ccc;
+      }
+      .stat-number {
+        font-size: 18pt;
+      }
+      .table-container {
+        box-shadow: none;
+        border: 1px solid #ccc;
+        overflow: visible;
+      }
+      .contract-table th {
+        background: #f0f0f0 !important;
+        color: #333 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .contract-table tbody tr {
+        page-break-inside: avoid;
+      }
+      .contract-table th,
+      .contract-table td {
+        padding: 6pt 8pt;
+        border: 1px solid #ddd;
+      }
+      .status-badge {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .aging-badge {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .empty-state {
+        display: none;
+      }
+    }
+
+    /* ── Scan Review Modal ── */
+    .modal-lg {
+      max-width: 900px;
+    }
+    .scan-summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      padding: var(--space-md);
+      background: var(--color-primary-light);
+      border-radius: var(--radius-sm);
+      margin-bottom: var(--space-md);
+      font-size: var(--font-size-sm);
+    }
+    .scan-summary-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+    .scan-summary-number {
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+    .scan-table-wrap {
+      max-height: 400px;
+      overflow-y: auto;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+    }
+    .scan-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--font-size-sm);
+    }
+    .scan-table th,
+    .scan-table td {
+      padding: 8px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .scan-table thead {
+      background: var(--color-primary-light);
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+    [data-theme="dark"] .scan-table thead {
+      background: #2d3d52;
+    }
+    .scan-table th {
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      font-size: 0.7rem;
+    }
+    .scan-table tbody tr:hover {
+      background: var(--color-primary-light);
+    }
+    .scan-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    .scan-table .col-check {
+      width: 36px;
+      text-align: center;
+    }
+    .scan-table .col-check input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+      accent-color: var(--color-primary);
+    }
+    .scan-table td input[type="text"] {
+      width: 100%;
+      padding: 3px 6px;
+      border: 1px solid transparent;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-family);
+      font-size: var(--font-size-sm);
+      color: var(--color-text);
+      background: transparent;
+    }
+    .scan-table td input[type="text"]:hover {
+      border-color: var(--color-border);
+    }
+    .scan-table td input[type="text"]:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      background: var(--color-surface);
+      box-shadow: 0 0 0 2px rgba(59,110,165,0.15);
+    }
+    .scan-select-actions {
+      display: flex;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-sm);
+      font-size: var(--font-size-sm);
+    }
+    .scan-select-actions button {
+      background: none;
+      border: none;
+      color: var(--color-primary);
+      cursor: pointer;
+      font-family: var(--font-family);
+      font-size: var(--font-size-sm);
+      text-decoration: underline;
+      padding: 0;
+    }
+    .scan-select-actions button:hover {
+      color: var(--color-primary-hover);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .dashboard {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      .form-row-2col {
+        grid-template-columns: 1fr;
+      }
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .toolbar-left {
+        flex-direction: column;
+      }
+      .search-wrapper {
+        max-width: none;
+      }
+      .contract-table th,
+      .contract-table td {
+        padding: 10px 10px;
+        font-size: var(--font-size-sm);
+      }
+      .chart-legend {
+        flex-wrap: wrap;
+        gap: var(--space-sm);
+      }
+    }
+
     @media (max-width: 480px) {
-      .app-container { padding: var(--space-md); }
-      .dashboard { grid-template-columns: 1fr; }
-      .app-header { flex-direction: column; align-items: flex-start; }
+      .app-container {
+        padding: var(--space-md);
+      }
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+      .app-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .modal {
+        max-height: calc(100vh - 20px);
+      }
     }
   </style>
 </head>
 <body>
   <div class="app-container">
+    <!-- Header -->
     <header class="app-header">
       <h1 class="app-title">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -210,18 +1372,38 @@
           <polyline points="14 2 14 8 20 8"></polyline>
           <line x1="16" y1="13" x2="8" y2="13"></line>
           <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
         Contract Tracker
       </h1>
       <div class="header-actions">
-        <div class="sync-status">
-          <span class="sync-dot syncing" id="sync-dot"></span>
-          <span id="sync-text">Connecting...</span>
+        <div class="sync-status" id="sync-status">
+          <span class="sync-dot" id="sync-dot"></span>
+          <span id="sync-text">Synced</span>
         </div>
-        <button class="theme-toggle" id="btn-theme" title="Toggle dark mode">☽</button>
+        <button class="theme-toggle" id="btn-theme" title="Toggle dark mode">&#9790;</button>
+        <button class="btn btn-secondary" id="btn-scan-folder" title="Scan folder for contracts">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          Scan Folder
+        </button>
+        <button class="btn btn-secondary" id="btn-settings" title="Manage Contract Types">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Settings
+        </button>
+        <button class="btn btn-secondary" id="btn-import">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Import
+        </button>
+        <button class="btn btn-secondary" id="btn-export">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Export
+        </button>
+        <input type="file" id="file-import" accept=".json" hidden>
+        <input type="file" id="folder-scan-input" webkitdirectory hidden>
       </div>
     </header>
 
+    <!-- Dashboard -->
     <section class="dashboard">
       <div class="stat-card stat-total">
         <span class="stat-number" id="stat-total">0</span>
@@ -241,6 +1423,28 @@
       </div>
     </section>
 
+    <!-- Status Chart -->
+    <section class="chart-section" id="chart-section">
+      <div class="chart-header">
+        <span class="chart-title">Contract Overview</span>
+        <div class="chart-legend">
+          <span class="chart-legend-item"><span class="chart-legend-dot" style="background:var(--status-received-border)"></span> Received</span>
+          <span class="chart-legend-item"><span class="chart-legend-dot" style="background:var(--status-review-border)"></span> Under Review</span>
+          <span class="chart-legend-item"><span class="chart-legend-dot" style="background:var(--status-executed-border)"></span> Executed</span>
+        </div>
+      </div>
+      <div id="chart-bar" class="chart-stacked-bar"></div>
+      <div class="chart-processing" id="chart-processing"></div>
+      <div class="chart-monthly" id="chart-monthly">
+        <div class="chart-monthly-header" id="chart-monthly-toggle">
+          <span class="chart-toggle-arrow expanded" id="chart-toggle-arrow">&#9656;</span>
+          <span class="chart-monthly-title">Contracts Received by Month</span>
+        </div>
+        <div class="chart-monthly-rows" id="chart-monthly-rows"></div>
+      </div>
+    </section>
+
+    <!-- Toolbar -->
     <section class="toolbar">
       <div class="toolbar-left">
         <div class="search-wrapper">
@@ -261,10 +1465,25 @@
       </div>
     </section>
 
+    <!-- Bulk Actions Bar -->
+    <div class="bulk-bar" id="bulk-bar">
+      <span class="bulk-bar-count" id="bulk-count">0 selected</span>
+      <div class="bulk-bar-actions">
+        <button class="btn btn-secondary" id="bulk-export">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Export Selected
+        </button>
+        <button class="btn btn-danger" id="bulk-delete">Delete Selected</button>
+      </div>
+      <button class="btn btn-secondary" id="bulk-clear" style="margin-left:auto;">Clear Selection</button>
+    </div>
+
+    <!-- Table -->
     <section class="table-container">
       <table class="contract-table" id="contract-table">
         <thead>
           <tr>
+            <th class="col-check"><input type="checkbox" id="select-all" title="Select all"></th>
             <th style="width:30px;"></th>
             <th data-sort="name" class="sortable">Protocol/Study Title <span class="sort-icon"></span></th>
             <th data-sort="type" class="sortable">Type <span class="sort-icon"></span></th>
@@ -284,6 +1503,7 @@
         <p id="empty-message">No contracts yet.</p>
         <span class="empty-hint" id="empty-hint">Click "+ Add Contract" to get started.</span>
       </div>
+      <!-- Pagination -->
       <div class="pagination" id="pagination" style="display:none;">
         <div class="pagination-info" id="pagination-info"></div>
         <div class="pagination-controls" id="pagination-controls"></div>
@@ -302,10 +1522,10 @@
 
   <!-- Add/Edit Modal -->
   <div class="modal-overlay" id="modal-overlay">
-    <div class="modal">
+    <div class="modal" role="dialog" aria-labelledby="modal-title">
       <div class="modal-header">
         <h2 id="modal-title">Add Contract</h2>
-        <button class="modal-close" id="modal-close">&times;</button>
+        <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
       </div>
       <div class="modal-body">
         <form id="contract-form" novalidate>
@@ -318,6 +1538,11 @@
             <select id="field-type" required>
               <option value="">Select type...</option>
             </select>
+            <div class="add-type-row" id="add-type-row" style="display:none;">
+              <input type="text" id="add-type-input" placeholder="Enter new type name...">
+              <button type="button" class="btn btn-primary" id="add-type-save">Add</button>
+              <button type="button" class="btn btn-secondary" id="add-type-cancel">Cancel</button>
+            </div>
           </div>
           <div class="form-group">
             <label for="field-sponsor">Sponsor *</label>
@@ -348,7 +1573,7 @@
             </div>
           </div>
           <div class="date-warning" id="date-warning">
-            <span>⚠</span>
+            <span>&#9888;</span>
             <span id="date-warning-text"></span>
           </div>
           <div class="form-group">
@@ -373,10 +1598,10 @@
 
   <!-- Confirm Dialog -->
   <div class="modal-overlay" id="confirm-overlay">
-    <div class="modal modal-sm">
+    <div class="modal modal-sm" role="alertdialog" aria-labelledby="confirm-title">
       <div class="modal-header">
         <h2 id="confirm-title">Confirm</h2>
-        <button class="modal-close" id="confirm-close">&times;</button>
+        <button class="modal-close" id="confirm-close" aria-label="Close">&times;</button>
       </div>
       <div class="modal-body">
         <p id="confirm-message">Are you sure?</p>
@@ -388,59 +1613,287 @@
     </div>
   </div>
 
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settings-overlay">
+    <div class="modal" role="dialog" aria-labelledby="settings-title">
+      <div class="modal-header">
+        <h2 id="settings-title">Manage Contract Types</h2>
+        <button class="modal-close" id="settings-close" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="settings-hint">Add, rename, reorder, or delete contract types. Types in use by existing contracts cannot be deleted.</p>
+        <ul class="type-list" id="settings-type-list">
+          <!-- populated by JS -->
+        </ul>
+        <div class="settings-add-row">
+          <input type="text" id="settings-new-type" placeholder="New type name...">
+          <button class="btn btn-primary" id="settings-add-type">+ Add</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="settings-done">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scan Folder Review Modal -->
+  <div class="modal-overlay" id="scan-overlay">
+    <div class="modal modal-lg" role="dialog" aria-labelledby="scan-title">
+      <div class="modal-header">
+        <h2 id="scan-title">Scan Results</h2>
+        <button class="modal-close" id="scan-close" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="scan-summary" id="scan-summary"></div>
+        <div class="scan-select-actions">
+          <button id="scan-select-all">Select all</button>
+          <button id="scan-deselect-all">Deselect all</button>
+        </div>
+        <div class="scan-table-wrap">
+          <table class="scan-table">
+            <thead>
+              <tr>
+                <th class="col-check"><input type="checkbox" id="scan-check-all" checked></th>
+                <th>FAS#</th>
+                <th>Type</th>
+                <th>Sponsor</th>
+                <th>CRO</th>
+                <th>Protocol/Study</th>
+                <th>PI</th>
+                <th>MARCD</th>
+              </tr>
+            </thead>
+            <tbody id="scan-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="scan-cancel">Cancel</button>
+        <button class="btn btn-primary" id="scan-import">Import Selected</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast -->
   <div class="toast" id="toast"></div>
 
   <!-- Firebase SDK -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-    import {
-      getFirestore, collection, addDoc, updateDoc, deleteDoc,
-      doc, onSnapshot, serverTimestamp, query, orderBy
-    } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
+  <script>
+    // ── Firebase Config ──
     const firebaseConfig = {
       apiKey: "AIzaSyDtU3Vyn54GRCwTUVlRqH6ehVqQ7TUEFqc",
       authDomain: "pjs-apps.firebaseapp.com",
       projectId: "pjs-apps",
       storageBucket: "pjs-apps.firebasestorage.app",
-      messagingSenderId: "1009743777636",
-      appId: "1:1009743777636:web:b235932aca965729aef471",
-      measurementId: "G-LQWXFJZ60V"
+      messagingSenderId: "315953304498",
+      appId: "1:315953304498:web:8f3c6e5a9d8b7c0d1e2f3a"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // ── Sync Status ──
+    const SyncStatus = {
+      _dot: null,
+      _text: null,
+      init() {
+        this._dot = document.getElementById('sync-dot');
+        this._text = document.getElementById('sync-text');
+      },
+      setSynced() {
+        this._dot.className = 'sync-dot';
+        this._text.textContent = 'Synced';
+      },
+      setSyncing() {
+        this._dot.className = 'sync-dot syncing';
+        this._text.textContent = 'Syncing...';
+      },
+      setOffline() {
+        this._dot.className = 'sync-dot offline';
+        this._text.textContent = 'Offline';
+      },
+      setError() {
+        this._dot.className = 'sync-dot error';
+        this._text.textContent = 'Error';
+      }
     };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const contractsCol = collection(db, "contracts");
-    const typesCol = collection(db, "contract_types");
-
-    const THEME_KEY = 'contractTracker_theme';
-    const PINS_KEY = 'contractTracker_pins';
-    const PAGING_KEY = 'contractTracker_perPage';
+    // ── Constants ──
+    const THEME_STORAGE_KEY = 'contractTracker_theme';
+    const PINS_STORAGE_KEY = 'contractTracker_pins';
+    const PAGING_STORAGE_KEY = 'contractTracker_perPage';
+    const CHART_COLLAPSED_KEY = 'contractTracker_chartCollapsed';
+    const DEFAULT_TYPES = [
+      'NDA', 'MSA', 'SOW', 'Amendment', 'Renewal',
+      'Consulting Agreement', 'Licensing Agreement',
+      'Employment Agreement', 'Service Agreement', 'Custom/Other'
+    ];
+    const ADD_TYPE_VALUE = '__add_new_type__';
     const AGING_WARN_DAYS = 14;
     const AGING_CRITICAL_DAYS = 30;
+    const KNOWN_CROS = ['PPD', 'IQVIA', 'ICON', 'InFocus', 'DPClinical', 'Syneos', 'PTS'];
 
-    const DEFAULT_TYPES = ['NDA', 'MSA', 'SOW', 'Amendment', 'Renewal', 'CTA', 'DTA', 'MTA', 'Consulting Agreement', 'Service Agreement'];
+    // ── Type Store (Firestore-backed) ──
+    const TypeStore = {
+      _types: [],
+      _unsubscribe: null,
 
-    let contracts = [];
-    let contractTypes = [];
-    let pins = new Set();
+      async init() {
+        return new Promise((resolve) => {
+          this._unsubscribe = db.collection('contract_types').doc('types').onSnapshot(
+            (doc) => {
+              if (doc.exists && doc.data().list) {
+                this._types = doc.data().list;
+              } else {
+                this._types = [...DEFAULT_TYPES];
+                this.save();
+              }
+              refreshTypeDropdowns();
+              Renderer.render();
+              resolve();
+            },
+            (error) => {
+              console.error('TypeStore sync error:', error);
+              this._types = [...DEFAULT_TYPES];
+              resolve();
+            }
+          );
+        });
+      },
 
-    const UIState = {
-      searchQuery: '',
-      filterType: '',
-      filterStatus: '',
-      sortField: 'dateReceived',
-      sortDirection: 'desc',
-      editingId: null,
-      currentPage: 1,
-      perPage: 25
+      async save() {
+        try {
+          SyncStatus.setSyncing();
+          await db.collection('contract_types').doc('types').set({ list: this._types });
+          SyncStatus.setSynced();
+        } catch (e) {
+          console.error('Failed to save types:', e);
+          SyncStatus.setError();
+        }
+      },
+
+      getAll() { return [...this._types]; },
+
+      add(typeName) {
+        const trimmed = typeName.trim();
+        if (!trimmed) return false;
+        if (this._types.some(t => t.toLowerCase() === trimmed.toLowerCase())) return false;
+        this._types.push(trimmed);
+        this.save();
+        return true;
+      },
+
+      rename(oldName, newName) {
+        const trimmed = newName.trim();
+        if (!trimmed) return false;
+        if (this._types.some(t => t !== oldName && t.toLowerCase() === trimmed.toLowerCase())) return false;
+        const index = this._types.indexOf(oldName);
+        if (index === -1) return false;
+        this._types[index] = trimmed;
+        this.save();
+        Store.getAll().forEach(c => {
+          if (c.type === oldName) {
+            Store.update(c.id, { type: trimmed });
+          }
+        });
+        return true;
+      },
+
+      remove(typeName) {
+        const index = this._types.indexOf(typeName);
+        if (index === -1) return false;
+        this._types.splice(index, 1);
+        this.save();
+        return true;
+      },
+
+      move(typeName, direction) {
+        const index = this._types.indexOf(typeName);
+        if (index === -1) return false;
+        const newIndex = direction === 'up' ? index - 1 : index + 1;
+        if (newIndex < 0 || newIndex >= this._types.length) return false;
+        const temp = this._types[newIndex];
+        this._types[newIndex] = this._types[index];
+        this._types[index] = temp;
+        this.save();
+        return true;
+      },
+
+      countUsage(typeName) {
+        return Store.getAll().filter(c => c.type === typeName).length;
+      },
+
+      populateDropdown(selectEl, includeAddOption) {
+        const firstOption = selectEl.options[0];
+        selectEl.innerHTML = '';
+        selectEl.appendChild(firstOption);
+        this._types.forEach(t => {
+          const opt = document.createElement('option');
+          opt.value = t;
+          opt.textContent = t;
+          selectEl.appendChild(opt);
+        });
+        if (includeAddOption) {
+          const divider = document.createElement('option');
+          divider.disabled = true;
+          divider.textContent = '────────────';
+          selectEl.appendChild(divider);
+          const addOpt = document.createElement('option');
+          addOpt.value = ADD_TYPE_VALUE;
+          addOpt.textContent = '+ Add New Type...';
+          addOpt.style.color = '#3b6ea5';
+          addOpt.style.fontWeight = '600';
+          selectEl.appendChild(addOpt);
+        }
+      }
     };
 
-    /* ───────────── Helpers ───────────── */
-    function deriveStatus(c) {
-      if (c.dateExecuted) return 'Executed';
-      if (c.dateReviewed) return 'Under Review';
+    // ── Pin Store (localStorage - device specific) ──
+    const PinStore = {
+      _pins: new Set(),
+
+      load() {
+        try {
+          const raw = localStorage.getItem(PINS_STORAGE_KEY);
+          this._pins = raw ? new Set(JSON.parse(raw)) : new Set();
+        } catch (e) {
+          this._pins = new Set();
+        }
+      },
+
+      save() {
+        try {
+          localStorage.setItem(PINS_STORAGE_KEY, JSON.stringify([...this._pins]));
+        } catch (e) {
+          console.error('Failed to save pins:', e);
+        }
+      },
+
+      isPinned(id) { return this._pins.has(id); },
+
+      toggle(id) {
+        if (this._pins.has(id)) {
+          this._pins.delete(id);
+        } else {
+          this._pins.add(id);
+        }
+        this.save();
+        return this._pins.has(id);
+      }
+    };
+
+    function generateId() {
+      if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+        return crypto.randomUUID();
+      }
+      return Date.now().toString(36) + Math.random().toString(36).slice(2);
+    }
+
+    function deriveStatus(contract) {
+      if (contract.dateExecuted) return 'Executed';
+      if (contract.dateReviewed) return 'Under Review';
       return 'Received';
     }
 
@@ -452,48 +1905,805 @@
       return Math.floor((now - then) / (1000 * 60 * 60 * 24));
     }
 
-    function escapeHtml(str) {
-      const div = document.createElement('div');
-      div.textContent = str || '';
-      return div.innerHTML;
+    function daysBetween(dateA, dateB) {
+      if (!dateA || !dateB) return null;
+      const a = new Date(dateA + 'T00:00:00');
+      const b = new Date(dateB + 'T00:00:00');
+      return Math.abs(Math.floor((b - a) / (1000 * 60 * 60 * 24)));
     }
 
-    function formatDate(dateStr) {
-      if (!dateStr) return '<span style="color:var(--color-text-muted)">--</span>';
-      const [y, m, d] = dateStr.split('-');
-      return `${m}/${d}/${y}`;
+    // ── Folder Name Parser ──
+    function parseFolderName(folderName) {
+      if (!folderName.includes('_')) return null;
+
+      let working = folderName.trim();
+      let notes = '';
+
+      const marcdMatch = working.match(/\s*\(MARCD\s*(.*?)\)\s*$/i);
+      if (marcdMatch) {
+        const marcdNum = marcdMatch[1].trim();
+        notes = marcdNum ? 'MARCD ' + marcdNum : 'MARCD';
+        working = working.substring(0, working.length - marcdMatch[0].length).trim();
+      }
+
+      const segments = working.split('_');
+      if (segments.length < 3) return null;
+
+      let fasNumber, type, sponsor, cro = '', nameSegments, pi;
+      const isLegacy = /^\d/.test(segments[0]) && !/^F/i.test(segments[0]);
+
+      if (isLegacy) {
+        fasNumber = segments[0];
+        const typeIndex = 2;
+        type = segments[typeIndex] || '';
+        sponsor = segments[typeIndex + 1] || '';
+        const rest = segments.slice(typeIndex + 2);
+        pi = rest.pop() || '';
+        if (rest.length > 0 && KNOWN_CROS.some(c => c.toLowerCase() === rest[0].toLowerCase())) {
+          cro = rest.shift();
+        }
+        nameSegments = rest;
+      } else {
+        fasNumber = segments[0];
+        type = segments[1] || '';
+        sponsor = segments[2] || '';
+        const rest = segments.slice(3);
+        pi = rest.pop() || '';
+        if (rest.length > 0 && KNOWN_CROS.some(c => c.toLowerCase() === rest[0].toLowerCase())) {
+          cro = rest.shift();
+        }
+        nameSegments = rest;
+      }
+
+      return {
+        fasNumber: fasNumber.trim(),
+        type: type.trim(),
+        sponsor: sponsor.trim(),
+        cro: cro.trim(),
+        name: nameSegments.join(' ').trim() || '(no protocol info)',
+        pi: pi.trim(),
+        notes: notes
+      };
     }
 
-    /* ───────────── Sync Status ───────────── */
-    function setSynced() {
-      document.getElementById('sync-dot').className = 'sync-dot';
-      document.getElementById('sync-text').textContent = 'Synced';
-    }
+    // ── Folder Scanner ──
+    const FolderScanner = {
+      _parsedContracts: [],
 
-    function setSyncing() {
-      document.getElementById('sync-dot').className = 'sync-dot syncing';
-      document.getElementById('sync-text').textContent = 'Syncing...';
-    }
+      scanFolder() {
+        const input = document.getElementById('folder-scan-input');
+        input.value = '';
+        input.click();
+      },
 
-    function setError() {
-      document.getElementById('sync-dot').className = 'sync-dot error';
-      document.getElementById('sync-text').textContent = 'Offline';
-    }
+      processFiles(fileList) {
+        if (!fileList || fileList.length === 0) return;
 
-    /* ───────────── Toast ───────────── */
+        const folderNameSet = new Set();
+        for (let i = 0; i < fileList.length; i++) {
+          const path = fileList[i].webkitRelativePath;
+          const parts = path.split('/');
+          if (parts.length >= 3 && parts[1]) {
+            folderNameSet.add(parts[1]);
+          }
+        }
+
+        const folderNames = [...folderNameSet];
+
+        if (folderNames.length === 0) {
+          showToast('No subfolders found in selected directory.');
+          return;
+        }
+
+        const parsed = [];
+        let filteredCount = 0;
+        folderNames.forEach(name => {
+          const result = parseFolderName(name);
+          if (result) {
+            parsed.push(result);
+          } else {
+            filteredCount++;
+          }
+        });
+
+        if (parsed.length === 0) {
+          showToast('No contract folders found (' + filteredCount + ' non-contract folders filtered).');
+          return;
+        }
+
+        const existingFas = new Set(
+          Store.getAll().map(c => (c.fasNumber || '').trim().toLowerCase()).filter(Boolean)
+        );
+
+        const newContracts = [];
+        let dupCount = 0;
+        parsed.forEach(p => {
+          if (existingFas.has(p.fasNumber.toLowerCase())) {
+            dupCount++;
+          } else {
+            newContracts.push(p);
+          }
+        });
+
+        if (newContracts.length === 0) {
+          showToast('All ' + parsed.length + ' contracts already tracked' + (filteredCount > 0 ? ' (' + filteredCount + ' non-contract folders filtered)' : '') + '.');
+          return;
+        }
+
+        this._parsedContracts = newContracts;
+        this.showReviewModal(newContracts, dupCount, filteredCount);
+      },
+
+      showReviewModal(contracts, dupCount, filteredCount) {
+        const summaryEl = document.getElementById('scan-summary');
+        summaryEl.innerHTML =
+          '<span class="scan-summary-item"><span class="scan-summary-number">' + contracts.length + '</span> new to import</span>'
+          + (dupCount > 0 ? '<span class="scan-summary-item"><span class="scan-summary-number">' + dupCount + '</span> already tracked</span>' : '')
+          + (filteredCount > 0 ? '<span class="scan-summary-item"><span class="scan-summary-number">' + filteredCount + '</span> non-contract folders</span>' : '');
+
+        const tbody = document.getElementById('scan-tbody');
+        tbody.innerHTML = contracts.map((c, i) => {
+          return '<tr data-index="' + i + '">'
+            + '<td class="col-check"><input type="checkbox" class="scan-row-check" data-index="' + i + '" checked></td>'
+            + '<td><input type="text" class="scan-field" data-index="' + i + '" data-field="fasNumber" value="' + Renderer.escapeAttr(c.fasNumber) + '"></td>'
+            + '<td><input type="text" class="scan-field" data-index="' + i + '" data-field="type" value="' + Renderer.escapeAttr(c.type) + '"></td>'
+            + '<td><input type="text" class="scan-field" data-index="' + i + '" data-field="sponsor" value="' + Renderer.escapeAttr(c.sponsor) + '"></td>'
+            + '<td><input type="text" class="scan-field" data-index="' + i + '" data-field="cro" value="' + Renderer.escapeAttr(c.cro) + '"></td>'
+            + '<td><input type="text" class="scan-field" data-index="' + i + '" data-field="name" value="' + Renderer.escapeAttr(c.name) + '"></td>'
+            + '<td><input type="text" class="scan-field" data-index="' + i + '" data-field="pi" value="' + Renderer.escapeAttr(c.pi) + '"></td>'
+            + '<td><input type="text" class="scan-field" data-index="' + i + '" data-field="notes" value="' + Renderer.escapeAttr(c.notes) + '"></td>'
+            + '</tr>';
+        }).join('');
+
+        document.getElementById('scan-check-all').checked = true;
+
+        const overlay = document.getElementById('scan-overlay');
+        overlay.removeAttribute('hidden');
+        void overlay.offsetHeight;
+        overlay.classList.add('visible');
+      },
+
+      closeScanModal() {
+        document.getElementById('scan-overlay').classList.remove('visible');
+        this._parsedContracts = [];
+      },
+
+      importSelected() {
+        const rows = document.querySelectorAll('#scan-tbody tr');
+        const toImport = [];
+
+        rows.forEach(row => {
+          const checkbox = row.querySelector('.scan-row-check');
+          if (!checkbox || !checkbox.checked) return;
+
+          const getValue = (field) => {
+            const input = row.querySelector('input[data-field="' + field + '"]');
+            return input ? input.value.trim() : '';
+          };
+
+          const contract = {
+            name: getValue('name') || '(untitled)',
+            type: getValue('type'),
+            sponsor: getValue('sponsor'),
+            pi: getValue('pi'),
+            fasNumber: getValue('fasNumber'),
+            dateReceived: '',
+            dateReviewed: '',
+            dateExecuted: '',
+            notes: getValue('notes')
+          };
+
+          const cro = getValue('cro');
+          if (cro) {
+            contract.notes = (contract.notes ? contract.notes + '; ' : '') + 'CRO: ' + cro;
+          }
+
+          toImport.push(contract);
+        });
+
+        if (toImport.length === 0) {
+          showToast('No contracts selected for import.');
+          return;
+        }
+
+        const existingTypes = new Set(TypeStore.getAll().map(t => t.toLowerCase()));
+        toImport.forEach(c => {
+          if (c.type && !existingTypes.has(c.type.toLowerCase())) {
+            TypeStore.add(c.type);
+            existingTypes.add(c.type.toLowerCase());
+          }
+        });
+
+        toImport.forEach(c => Store.add(c));
+
+        this.closeScanModal();
+        refreshTypeDropdowns();
+        Renderer.render();
+        showToast('Imported ' + toImport.length + ' contract(s) from folder scan.');
+      }
+    };
+
+    // ── Store (Firestore-backed) ──
+    const Store = {
+      _data: [],
+      _unsubscribe: null,
+
+      init() {
+        return new Promise((resolve) => {
+          this._unsubscribe = db.collection('contracts').onSnapshot(
+            (snapshot) => {
+              this._data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+              Renderer.render();
+              SyncStatus.setSynced();
+              resolve();
+            },
+            (error) => {
+              console.error('Store sync error:', error);
+              SyncStatus.setError();
+              resolve();
+            }
+          );
+        });
+      },
+
+      getAll() { return [...this._data]; },
+
+      getById(id) { return this._data.find(c => c.id === id) || null; },
+
+      async add(contract) {
+        SyncStatus.setSyncing();
+        const now = new Date().toISOString();
+        const newContract = {
+          ...contract,
+          createdAt: now,
+          updatedAt: now
+        };
+        try {
+          await db.collection('contracts').add(newContract);
+        } catch (e) {
+          console.error('Failed to add contract:', e);
+          SyncStatus.setError();
+        }
+      },
+
+      async update(id, updates) {
+        SyncStatus.setSyncing();
+        try {
+          await db.collection('contracts').doc(id).update({
+            ...updates,
+            updatedAt: new Date().toISOString()
+          });
+        } catch (e) {
+          console.error('Failed to update contract:', e);
+          SyncStatus.setError();
+        }
+      },
+
+      async remove(id) {
+        SyncStatus.setSyncing();
+        try {
+          await db.collection('contracts').doc(id).delete();
+        } catch (e) {
+          console.error('Failed to remove contract:', e);
+          SyncStatus.setError();
+        }
+      },
+
+      async removeMany(ids) {
+        SyncStatus.setSyncing();
+        const batch = db.batch();
+        ids.forEach(id => {
+          batch.delete(db.collection('contracts').doc(id));
+        });
+        try {
+          await batch.commit();
+        } catch (e) {
+          console.error('Failed to remove contracts:', e);
+          SyncStatus.setError();
+        }
+      },
+
+      async replaceAll(data) {
+        SyncStatus.setSyncing();
+        const batch = db.batch();
+        // Delete all existing
+        this._data.forEach(c => {
+          batch.delete(db.collection('contracts').doc(c.id));
+        });
+        // Add all new
+        data.forEach(item => {
+          const docRef = db.collection('contracts').doc();
+          batch.set(docRef, item);
+        });
+        try {
+          await batch.commit();
+        } catch (e) {
+          console.error('Failed to replace all:', e);
+          SyncStatus.setError();
+        }
+      },
+
+      exportJSON(contracts) {
+        const data = contracts || this._data;
+        return JSON.stringify(data, null, 2);
+      },
+
+      importJSON(jsonString) {
+        const parsed = JSON.parse(jsonString);
+        if (!Array.isArray(parsed)) throw new Error('Invalid format: expected an array');
+        parsed.forEach((item, i) => {
+          if (!item.name || !item.type || (!item.sponsor && !item.counterparty)) {
+            throw new Error('Record at index ' + i + ' is missing required fields (name, type, sponsor)');
+          }
+          if (!item.sponsor && item.counterparty) {
+            item.sponsor = item.counterparty;
+          }
+          if (item.id) delete item.id; // Let Firestore generate new IDs
+        });
+        return parsed;
+      }
+    };
+
+    // ── UI State ──
+    const UIState = {
+      searchQuery: '',
+      filterType: '',
+      filterStatus: '',
+      sortField: 'dateReceived',
+      sortDirection: 'desc',
+      editingId: null,
+      selectedIds: new Set(),
+      currentPage: 1,
+      perPage: 25
+    };
+
+    // ── Renderer ──
+    const Renderer = {
+      els: {},
+      _lastFiltered: [],
+
+      init() {
+        this.els = {
+          statTotal: document.getElementById('stat-total'),
+          statReceived: document.getElementById('stat-received'),
+          statReview: document.getElementById('stat-review'),
+          statExecuted: document.getElementById('stat-executed'),
+          tbody: document.getElementById('contract-tbody'),
+          emptyState: document.getElementById('empty-state'),
+          emptyMessage: document.getElementById('empty-message'),
+          emptyHint: document.getElementById('empty-hint'),
+          modalOverlay: document.getElementById('modal-overlay'),
+          modalTitle: document.getElementById('modal-title'),
+          form: document.getElementById('contract-form'),
+          statusPreview: document.getElementById('field-status-preview'),
+          confirmOverlay: document.getElementById('confirm-overlay'),
+          settingsOverlay: document.getElementById('settings-overlay'),
+          settingsTypeList: document.getElementById('settings-type-list'),
+          toast: document.getElementById('toast'),
+          chartBar: document.getElementById('chart-bar'),
+          chartProcessing: document.getElementById('chart-processing'),
+          chartMonthlyRows: document.getElementById('chart-monthly-rows'),
+          chartMonthlyToggle: document.getElementById('chart-monthly-toggle'),
+          chartToggleArrow: document.getElementById('chart-toggle-arrow'),
+          chartSection: document.getElementById('chart-section'),
+          bulkBar: document.getElementById('bulk-bar'),
+          bulkCount: document.getElementById('bulk-count'),
+          selectAll: document.getElementById('select-all'),
+          pagination: document.getElementById('pagination'),
+          paginationInfo: document.getElementById('pagination-info'),
+          paginationControls: document.getElementById('pagination-controls'),
+          dateWarning: document.getElementById('date-warning'),
+          dateWarningText: document.getElementById('date-warning-text')
+        };
+      },
+
+      renderDashboard(contracts) {
+        const stats = { total: contracts.length, received: 0, review: 0, executed: 0 };
+        contracts.forEach(c => {
+          const s = deriveStatus(c);
+          if (s === 'Received') stats.received++;
+          else if (s === 'Under Review') stats.review++;
+          else stats.executed++;
+        });
+        this.els.statTotal.textContent = stats.total;
+        this.els.statReceived.textContent = stats.received;
+        this.els.statReview.textContent = stats.review;
+        this.els.statExecuted.textContent = stats.executed;
+      },
+
+      renderChart(contracts) {
+        if (contracts.length === 0) {
+          this.els.chartBar.innerHTML = '';
+          this.els.chartProcessing.innerHTML = '';
+          this.els.chartMonthlyRows.innerHTML = '<div class="chart-empty">Add contracts to see overview charts.</div>';
+          return;
+        }
+
+        const stats = { received: 0, review: 0, executed: 0 };
+        contracts.forEach(c => {
+          const s = deriveStatus(c);
+          if (s === 'Received') stats.received++;
+          else if (s === 'Under Review') stats.review++;
+          else stats.executed++;
+        });
+        const total = contracts.length;
+        const segments = [];
+        if (stats.received > 0) segments.push({ cls: 'chart-bar-received', pct: (stats.received / total * 100), count: stats.received });
+        if (stats.review > 0) segments.push({ cls: 'chart-bar-review', pct: (stats.review / total * 100), count: stats.review });
+        if (stats.executed > 0) segments.push({ cls: 'chart-bar-executed', pct: (stats.executed / total * 100), count: stats.executed });
+        this.els.chartBar.innerHTML = segments.map(s =>
+          '<div class="' + s.cls + '" style="width:' + s.pct.toFixed(1) + '%">' + (s.pct > 8 ? '<span>' + s.count + '</span>' : '') + '</div>'
+        ).join('');
+
+        const recToRev = [];
+        const revToExe = [];
+        const recToExe = [];
+        contracts.forEach(c => {
+          const d1 = daysBetween(c.dateReceived, c.dateReviewed);
+          const d2 = daysBetween(c.dateReviewed, c.dateExecuted);
+          const d3 = daysBetween(c.dateReceived, c.dateExecuted);
+          if (d1 !== null) recToRev.push(d1);
+          if (d2 !== null) revToExe.push(d2);
+          if (d3 !== null) recToExe.push(d3);
+        });
+        const avg = arr => arr.length > 0 ? Math.round(arr.reduce((a, b) => a + b, 0) / arr.length) : null;
+        const avgRecToRev = avg(recToRev);
+        const avgRevToExe = avg(revToExe);
+        const avgRecToExe = avg(recToExe);
+        const fmtAvg = (val, n) => val !== null ? val + 'd <span style="font-size:0.7rem;color:var(--color-text-muted)">(' + n + ')</span>' : '--';
+
+        this.els.chartProcessing.innerHTML =
+          '<div class="chart-metric"><div class="chart-metric-number">' + fmtAvg(avgRecToRev, recToRev.length) + '</div><div class="chart-metric-label">Avg Received &rarr; Reviewed</div></div>'
+          + '<div class="chart-metric"><div class="chart-metric-number">' + fmtAvg(avgRevToExe, revToExe.length) + '</div><div class="chart-metric-label">Avg Reviewed &rarr; Executed</div></div>'
+          + '<div class="chart-metric"><div class="chart-metric-number">' + fmtAvg(avgRecToExe, recToExe.length) + '</div><div class="chart-metric-label">Avg Total Processing</div></div>';
+
+        const months = {};
+        const now = new Date();
+        for (let i = 5; i >= 0; i--) {
+          const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+          const key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+          months[key] = 0;
+        }
+        contracts.forEach(c => {
+          if (c.dateReceived) {
+            const key = c.dateReceived.substring(0, 7);
+            if (key in months) months[key]++;
+          }
+        });
+        const monthEntries = Object.entries(months);
+        const maxCount = Math.max(...monthEntries.map(e => e[1]), 1);
+        this.els.chartMonthlyRows.innerHTML = monthEntries.map(([key, count]) => {
+          const [y, m] = key.split('-');
+          const label = new Date(parseInt(y), parseInt(m) - 1).toLocaleString('default', { month: 'short', year: '2-digit' });
+          const pct = (count / maxCount * 100).toFixed(1);
+          return '<div class="chart-monthly-row">'
+            + '<span class="chart-monthly-label">' + label + '</span>'
+            + '<div class="chart-monthly-bar-track"><div class="chart-monthly-bar-fill" style="width:' + pct + '%"></div></div>'
+            + '<span class="chart-monthly-count">' + count + '</span>'
+            + '</div>';
+        }).join('');
+      },
+
+      renderTable(contracts) {
+        let filtered = this.applyFilters(contracts);
+        filtered = this.applySort(filtered);
+
+        filtered.sort((a, b) => {
+          const aPinned = PinStore.isPinned(a.id) ? 0 : 1;
+          const bPinned = PinStore.isPinned(b.id) ? 0 : 1;
+          return aPinned - bPinned;
+        });
+
+        this._lastFiltered = filtered;
+
+        if (filtered.length === 0) {
+          this.els.tbody.innerHTML = '';
+          this.els.emptyState.style.display = '';
+          this.els.pagination.style.display = 'none';
+          if (contracts.length === 0) {
+            this.els.emptyMessage.textContent = 'No contracts yet.';
+            this.els.emptyHint.textContent = 'Click "+ Add Contract" to get started.';
+          } else {
+            this.els.emptyMessage.textContent = 'No contracts match your filters.';
+            this.els.emptyHint.textContent = 'Try adjusting your search or filters.';
+          }
+          return;
+        }
+
+        this.els.emptyState.style.display = 'none';
+
+        const totalItems = filtered.length;
+        const totalPages = Math.ceil(totalItems / UIState.perPage);
+        if (UIState.currentPage > totalPages) UIState.currentPage = totalPages;
+        const start = (UIState.currentPage - 1) * UIState.perPage;
+        const end = Math.min(start + UIState.perPage, totalItems);
+        const pageItems = filtered.slice(start, end);
+
+        this.els.tbody.innerHTML = pageItems.map(c => this.buildRow(c)).join('');
+
+        if (totalItems > 10) {
+          this.els.pagination.style.display = 'flex';
+          this.els.paginationInfo.textContent = 'Showing ' + (start + 1) + '-' + end + ' of ' + totalItems;
+
+          let controlsHtml = '<button class="btn btn-secondary" id="page-prev"' + (UIState.currentPage <= 1 ? ' disabled' : '') + '>&laquo; Prev</button>';
+          const maxVisible = 5;
+          let startPage = Math.max(1, UIState.currentPage - Math.floor(maxVisible / 2));
+          let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+          if (endPage - startPage < maxVisible - 1) startPage = Math.max(1, endPage - maxVisible + 1);
+
+          for (let p = startPage; p <= endPage; p++) {
+            controlsHtml += '<button class="page-number' + (p === UIState.currentPage ? ' active' : '') + '" data-page="' + p + '">' + p + '</button>';
+          }
+          controlsHtml += '<button class="btn btn-secondary" id="page-next"' + (UIState.currentPage >= totalPages ? ' disabled' : '') + '>Next &raquo;</button>';
+          this.els.paginationControls.innerHTML = controlsHtml;
+        } else {
+          this.els.pagination.style.display = 'none';
+        }
+
+        this.updateSelectAllState(pageItems);
+        this.updateBulkBar();
+      },
+
+      buildRow(contract) {
+        const status = deriveStatus(contract);
+        const badgeClass = status === 'Received' ? 'status-received'
+                         : status === 'Under Review' ? 'status-review'
+                         : 'status-executed';
+        const isPinned = PinStore.isPinned(contract.id);
+        const isSelected = UIState.selectedIds.has(contract.id);
+
+        let agingHtml = '';
+        if (status !== 'Executed') {
+          const refDate = status === 'Under Review' ? contract.dateReviewed : contract.dateReceived;
+          const days = daysSince(refDate || contract.createdAt?.substring(0, 10));
+          if (days !== null) {
+            if (days >= AGING_CRITICAL_DAYS) {
+              agingHtml = '<span class="aging-badge aging-critical">' + days + 'd</span>';
+            } else if (days >= AGING_WARN_DAYS) {
+              agingHtml = '<span class="aging-badge aging-warn">' + days + 'd</span>';
+            }
+          }
+        }
+
+        return '<tr data-id="' + this.escapeAttr(contract.id) + '"' + (isPinned ? ' class="row-pinned"' : '') + '>'
+          + '<td class="col-check"><input type="checkbox" class="row-check" data-id="' + this.escapeAttr(contract.id) + '"' + (isSelected ? ' checked' : '') + '></td>'
+          + '<td><button class="btn-pin' + (isPinned ? ' pinned' : '') + '" data-id="' + this.escapeAttr(contract.id) + '" title="' + (isPinned ? 'Unpin' : 'Pin to top') + '">' + (isPinned ? '&#9733;' : '&#9734;') + '</button></td>'
+          + '<td class="col-name" title="' + this.escapeAttr(contract.name) + '">' + this.escapeHtml(contract.name) + '</td>'
+          + '<td>' + this.escapeHtml(contract.type) + '</td>'
+          + '<td>' + this.escapeHtml(contract.sponsor || contract.counterparty || '') + '</td>'
+          + '<td>' + this.escapeHtml(contract.pi || '') + '</td>'
+          + '<td>' + this.escapeHtml(contract.fasNumber || '') + '</td>'
+          + '<td>' + this.formatDate(contract.dateReceived) + '</td>'
+          + '<td>' + this.formatDate(contract.dateReviewed) + '</td>'
+          + '<td>' + this.formatDate(contract.dateExecuted) + '</td>'
+          + '<td><span class="status-badge ' + badgeClass + '">' + status + '</span>' + agingHtml + '</td>'
+          + '<td class="col-actions"><div class="col-actions-body">'
+          + '<button class="btn btn-icon btn-edit" data-id="' + this.escapeAttr(contract.id) + '" title="Edit">&#9998;</button>'
+          + '<button class="btn btn-icon btn-delete" data-id="' + this.escapeAttr(contract.id) + '" title="Delete">&#128465;</button>'
+          + '</div></td>'
+          + '</tr>';
+      },
+
+      applyFilters(contracts) {
+        return contracts.filter(c => {
+          if (UIState.searchQuery) {
+            const q = UIState.searchQuery.toLowerCase();
+            const sponsor = (c.sponsor || c.counterparty || '').toLowerCase();
+            if (!c.name.toLowerCase().includes(q) && !sponsor.includes(q)) {
+              return false;
+            }
+          }
+          if (UIState.filterType && c.type !== UIState.filterType) return false;
+          if (UIState.filterStatus && deriveStatus(c) !== UIState.filterStatus) return false;
+          return true;
+        });
+      },
+
+      applySort(contracts) {
+        const field = UIState.sortField;
+        const dir = UIState.sortDirection === 'asc' ? 1 : -1;
+        return [...contracts].sort((a, b) => {
+          let valA, valB;
+          if (field === 'status') {
+            const ORDER = { 'Received': 0, 'Under Review': 1, 'Executed': 2 };
+            valA = ORDER[deriveStatus(a)];
+            valB = ORDER[deriveStatus(b)];
+          } else if (field.startsWith('date')) {
+            valA = a[field] || '9999-12-31';
+            valB = b[field] || '9999-12-31';
+          } else {
+            valA = (a[field] || '').toLowerCase();
+            valB = (b[field] || '').toLowerCase();
+          }
+          if (valA < valB) return -1 * dir;
+          if (valA > valB) return 1 * dir;
+          return 0;
+        });
+      },
+
+      escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str || '';
+        return div.innerHTML;
+      },
+
+      escapeAttr(str) {
+        return (str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      },
+
+      formatDate(dateStr) {
+        if (!dateStr) return '<span style="color:var(--color-text-muted)">--</span>';
+        const [y, m, d] = dateStr.split('-');
+        return m + '/' + d + '/' + y;
+      },
+
+      updateSortIndicators() {
+        document.querySelectorAll('th.sortable').forEach(th => {
+          const icon = th.querySelector('.sort-icon');
+          if (th.dataset.sort === UIState.sortField) {
+            th.classList.add('sort-active');
+            icon.textContent = UIState.sortDirection === 'asc' ? ' \u25B2' : ' \u25BC';
+          } else {
+            th.classList.remove('sort-active');
+            icon.textContent = '';
+          }
+        });
+      },
+
+      updateSelectAllState(pageItems) {
+        const checkboxes = document.querySelectorAll('.row-check');
+        if (checkboxes.length === 0) {
+          this.els.selectAll.checked = false;
+          this.els.selectAll.indeterminate = false;
+          return;
+        }
+        const checkedCount = [...checkboxes].filter(cb => cb.checked).length;
+        this.els.selectAll.checked = checkedCount === checkboxes.length;
+        this.els.selectAll.indeterminate = checkedCount > 0 && checkedCount < checkboxes.length;
+      },
+
+      updateBulkBar() {
+        const count = UIState.selectedIds.size;
+        if (count > 0) {
+          this.els.bulkBar.classList.add('visible');
+          this.els.bulkCount.textContent = count + ' selected';
+        } else {
+          this.els.bulkBar.classList.remove('visible');
+        }
+      },
+
+      openModal(contract) {
+        UIState.editingId = contract ? contract.id : null;
+        this.els.modalTitle.textContent = contract ? 'Edit Contract' : 'Add Contract';
+
+        document.getElementById('field-name').value = contract ? contract.name : '';
+        document.getElementById('field-type').value = contract ? contract.type : '';
+        document.getElementById('field-sponsor').value = contract ? (contract.sponsor || contract.counterparty || '') : '';
+        document.getElementById('field-pi').value = contract ? (contract.pi || '') : '';
+        document.getElementById('field-fas').value = contract ? (contract.fasNumber || '') : '';
+        document.getElementById('field-date-received').value = contract ? (contract.dateReceived || '') : '';
+        document.getElementById('field-date-reviewed').value = contract ? (contract.dateReviewed || '') : '';
+        document.getElementById('field-date-executed').value = contract ? (contract.dateExecuted || '') : '';
+        document.getElementById('field-notes').value = contract ? (contract.notes || '') : '';
+
+        refreshTypeDropdowns(document.getElementById('field-type').value);
+        document.getElementById('add-type-row').style.display = 'none';
+
+        this.updateStatusPreview();
+        this.validateDates();
+        this.els.modalOverlay.removeAttribute('hidden');
+        void this.els.modalOverlay.offsetHeight;
+        this.els.modalOverlay.classList.add('visible');
+        document.getElementById('field-name').focus();
+      },
+
+      closeModal() {
+        this.els.modalOverlay.classList.remove('visible');
+        UIState.editingId = null;
+      },
+
+      updateStatusPreview() {
+        const mockContract = {
+          dateReceived: document.getElementById('field-date-received').value,
+          dateReviewed: document.getElementById('field-date-reviewed').value,
+          dateExecuted: document.getElementById('field-date-executed').value
+        };
+        const status = deriveStatus(mockContract);
+        const badge = this.els.statusPreview;
+        badge.textContent = status;
+        badge.className = 'status-badge ' + (
+          status === 'Received' ? 'status-received' :
+          status === 'Under Review' ? 'status-review' : 'status-executed'
+        );
+      },
+
+      validateDates() {
+        const received = document.getElementById('field-date-received').value;
+        const reviewed = document.getElementById('field-date-reviewed').value;
+        const executed = document.getElementById('field-date-executed').value;
+        const warnings = [];
+
+        if (received && reviewed && reviewed < received) {
+          warnings.push('Reviewed date is before Received date.');
+        }
+        if (received && executed && executed < received) {
+          warnings.push('Executed date is before Received date.');
+        }
+        if (reviewed && executed && executed < reviewed) {
+          warnings.push('Executed date is before Reviewed date.');
+        }
+
+        if (warnings.length > 0) {
+          this.els.dateWarningText.textContent = warnings.join(' ');
+          this.els.dateWarning.classList.add('visible');
+        } else {
+          this.els.dateWarning.classList.remove('visible');
+        }
+      },
+
+      openSettings() {
+        this.renderTypeList();
+        this.els.settingsOverlay.removeAttribute('hidden');
+        void this.els.settingsOverlay.offsetHeight;
+        this.els.settingsOverlay.classList.add('visible');
+        document.getElementById('settings-new-type').value = '';
+      },
+
+      closeSettings() {
+        this.els.settingsOverlay.classList.remove('visible');
+        refreshTypeDropdowns();
+      },
+
+      renderTypeList() {
+        const types = TypeStore.getAll();
+        const listEl = this.els.settingsTypeList;
+        listEl.innerHTML = types.map((t, i) => {
+          const count = TypeStore.countUsage(t);
+          const countLabel = count > 0 ? count + ' contract' + (count !== 1 ? 's' : '') : 'unused';
+          const isFirst = i === 0;
+          const isLast = i === types.length - 1;
+          return '<li class="type-item" data-type="' + this.escapeAttr(t) + '">'
+            + '<div class="type-item-move">'
+            + '<button class="btn btn-icon btn-type-up' + (isFirst ? ' btn-disabled' : '') + '" title="Move up"' + (isFirst ? ' disabled' : '') + '>&#9650;</button>'
+            + '<button class="btn btn-icon btn-type-down' + (isLast ? ' btn-disabled' : '') + '" title="Move down"' + (isLast ? ' disabled' : '') + '>&#9660;</button>'
+            + '</div>'
+            + '<span class="type-item-name">' + this.escapeHtml(t) + '</span>'
+            + '<span class="type-item-count">' + countLabel + '</span>'
+            + '<div class="type-item-actions">'
+            + '<button class="btn btn-icon btn-type-rename" title="Rename">&#9998;</button>'
+            + (count === 0 ? '<button class="btn btn-icon btn-delete btn-type-delete" title="Delete">&times;</button>' : '')
+            + '</div>'
+            + '</li>';
+        }).join('');
+      },
+
+      render() {
+        const allContracts = Store.getAll();
+        this.renderDashboard(allContracts);
+        this.renderChart(allContracts);
+        this.renderTable(allContracts);
+        this.updateSortIndicators();
+      }
+    };
+
+    // ── Toast ──
     let toastTimer = null;
     function showToast(message) {
-      const el = document.getElementById('toast');
+      const el = Renderer.els.toast;
       el.textContent = message;
       el.classList.add('visible');
       clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => el.classList.remove('visible'), 2500);
+      toastTimer = setTimeout(() => { el.classList.remove('visible'); }, 2500);
     }
 
-    /* ───────────── Theme ───────────── */
+    // ── Theme ──
     function loadTheme() {
-      const saved = localStorage.getItem(THEME_KEY);
-      if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+      try {
+        const saved = localStorage.getItem(THEME_STORAGE_KEY);
+        if (saved === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      } catch (e) {}
       updateThemeIcon();
     }
 
@@ -501,482 +2711,585 @@
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
       if (isDark) {
         document.documentElement.removeAttribute('data-theme');
-        localStorage.setItem(THEME_KEY, 'light');
+        localStorage.setItem(THEME_STORAGE_KEY, 'light');
       } else {
         document.documentElement.setAttribute('data-theme', 'dark');
-        localStorage.setItem(THEME_KEY, 'dark');
+        localStorage.setItem(THEME_STORAGE_KEY, 'dark');
       }
       updateThemeIcon();
     }
 
     function updateThemeIcon() {
+      const btn = document.getElementById('btn-theme');
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      document.getElementById('btn-theme').innerHTML = isDark ? '☀' : '☽';
+      btn.innerHTML = isDark ? '&#9788;' : '&#9790;';
+      btn.title = isDark ? 'Switch to light mode' : 'Switch to dark mode';
     }
 
-    /* ───────────── Pins (local) ───────────── */
-    function loadPins() {
-      try {
-        const raw = localStorage.getItem(PINS_KEY);
-        pins = raw ? new Set(JSON.parse(raw)) : new Set();
-      } catch (e) { pins = new Set(); }
-    }
+    // ── Handlers ──
+    const Handlers = {
+      _confirmCallback: null,
 
-    function savePins() {
-      localStorage.setItem(PINS_KEY, JSON.stringify([...pins]));
-    }
+      init() {
+        document.getElementById('btn-add').addEventListener('click', () => {
+          Renderer.openModal(null);
+        });
 
-    function togglePin(id) {
-      if (pins.has(id)) pins.delete(id);
-      else pins.add(id);
-      savePins();
-      render();
-    }
+        document.getElementById('btn-save').addEventListener('click', (e) => {
+          e.preventDefault();
+          this.saveContract();
+        });
 
-    /* ───────────── Firebase Listeners ───────────── */
-    onSnapshot(query(contractsCol, orderBy("createdAt", "desc")), snap => {
-      contracts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      setSynced();
-      render();
-    }, err => {
-      console.error('Contracts error:', err);
-      setError();
-    });
+        document.getElementById('btn-cancel').addEventListener('click', () => Renderer.closeModal());
+        document.getElementById('modal-close').addEventListener('click', () => Renderer.closeModal());
+        document.getElementById('modal-overlay').addEventListener('click', (e) => {
+          if (e.target === e.currentTarget) Renderer.closeModal();
+        });
 
-    onSnapshot(typesCol, snap => {
-      contractTypes = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      if (contractTypes.length === 0) {
-        DEFAULT_TYPES.forEach(name => addDoc(typesCol, { name, sortOrder: DEFAULT_TYPES.indexOf(name) }));
-      }
-      populateTypeDropdowns();
-    }, err => {
-      console.error('Types error:', err);
-    });
+        document.getElementById('contract-form').addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+            e.preventDefault();
+            this.saveContract();
+          }
+        });
 
-    /* ───────────── CRUD ───────────── */
-    window.addContract = async function(data) {
-      setSyncing();
-      try {
-        await addDoc(contractsCol, { ...data, createdAt: serverTimestamp() });
-        showToast('Contract added.');
-      } catch (err) {
-        console.error(err);
-        showToast('Failed to add contract.');
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            if (Renderer.els.confirmOverlay.classList.contains('visible')) {
+              this.closeConfirm();
+            } else if (document.getElementById('scan-overlay').classList.contains('visible')) {
+              FolderScanner.closeScanModal();
+            } else if (Renderer.els.settingsOverlay.classList.contains('visible')) {
+              Renderer.closeSettings();
+            } else if (Renderer.els.modalOverlay.classList.contains('visible')) {
+              Renderer.closeModal();
+            }
+          }
+        });
+
+        ['field-date-received', 'field-date-reviewed', 'field-date-executed'].forEach(id => {
+          document.getElementById(id).addEventListener('change', () => {
+            Renderer.updateStatusPreview();
+            Renderer.validateDates();
+          });
+        });
+
+        document.getElementById('contract-tbody').addEventListener('click', (e) => {
+          const checkbox = e.target.closest('.row-check');
+          if (checkbox) {
+            const id = checkbox.dataset.id;
+            if (checkbox.checked) {
+              UIState.selectedIds.add(id);
+            } else {
+              UIState.selectedIds.delete(id);
+            }
+            Renderer.updateSelectAllState();
+            Renderer.updateBulkBar();
+            return;
+          }
+
+          const pinBtn = e.target.closest('.btn-pin');
+          if (pinBtn) {
+            const id = pinBtn.dataset.id;
+            PinStore.toggle(id);
+            Renderer.render();
+            return;
+          }
+
+          const btn = e.target.closest('button');
+          if (btn) {
+            const id = btn.dataset.id;
+            if (btn.classList.contains('btn-edit')) {
+              const contract = Store.getById(id);
+              if (contract) Renderer.openModal(contract);
+            }
+            if (btn.classList.contains('btn-delete')) {
+              this.confirmDelete(id);
+            }
+            return;
+          }
+          const td = e.target.closest('td');
+          if (td && (td.classList.contains('col-check') || td.cellIndex === 1)) return;
+          const row = e.target.closest('tr');
+          if (row) {
+            const id = row.dataset.id;
+            const contract = Store.getById(id);
+            if (contract) Renderer.openModal(contract);
+          }
+        });
+
+        document.getElementById('select-all').addEventListener('change', (e) => {
+          const checked = e.target.checked;
+          document.querySelectorAll('.row-check').forEach(cb => {
+            cb.checked = checked;
+            if (checked) {
+              UIState.selectedIds.add(cb.dataset.id);
+            } else {
+              UIState.selectedIds.delete(cb.dataset.id);
+            }
+          });
+          Renderer.updateBulkBar();
+        });
+
+        document.getElementById('bulk-delete').addEventListener('click', () => {
+          const count = UIState.selectedIds.size;
+          if (count === 0) return;
+          this.showConfirm(
+            'Delete ' + count + ' Contract' + (count !== 1 ? 's' : ''),
+            'Are you sure you want to delete ' + count + ' selected contract' + (count !== 1 ? 's' : '') + '? This cannot be undone.',
+            () => {
+              Store.removeMany([...UIState.selectedIds]);
+              UIState.selectedIds.forEach(id => {
+                if (PinStore.isPinned(id)) PinStore.toggle(id);
+              });
+              UIState.selectedIds.clear();
+              Renderer.render();
+              showToast(count + ' contract' + (count !== 1 ? 's' : '') + ' deleted.');
+            }
+          );
+        });
+
+        document.getElementById('bulk-export').addEventListener('click', () => {
+          const ids = [...UIState.selectedIds];
+          const contracts = ids.map(id => Store.getById(id)).filter(Boolean);
+          if (contracts.length === 0) return;
+          const json = Store.exportJSON(contracts);
+          const blob = new Blob([json], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'contracts-selected-' + new Date().toISOString().slice(0, 10) + '.json';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+          showToast('Exported ' + contracts.length + ' contract(s).');
+        });
+
+        document.getElementById('bulk-clear').addEventListener('click', () => {
+          UIState.selectedIds.clear();
+          document.querySelectorAll('.row-check').forEach(cb => cb.checked = false);
+          Renderer.els.selectAll.checked = false;
+          Renderer.els.selectAll.indeterminate = false;
+          Renderer.updateBulkBar();
+        });
+
+        document.getElementById('pagination-controls').addEventListener('click', (e) => {
+          const btn = e.target.closest('button');
+          if (!btn) return;
+          if (btn.id === 'page-prev') {
+            if (UIState.currentPage > 1) {
+              UIState.currentPage--;
+              Renderer.render();
+            }
+          } else if (btn.id === 'page-next') {
+            UIState.currentPage++;
+            Renderer.render();
+          } else if (btn.dataset.page) {
+            UIState.currentPage = parseInt(btn.dataset.page);
+            Renderer.render();
+          }
+        });
+
+        document.getElementById('per-page-select').addEventListener('change', (e) => {
+          UIState.perPage = parseInt(e.target.value);
+          UIState.currentPage = 1;
+          try { localStorage.setItem(PAGING_STORAGE_KEY, UIState.perPage); } catch (e) {}
+          Renderer.render();
+        });
+
+        document.querySelectorAll('th.sortable').forEach(th => {
+          th.addEventListener('click', () => {
+            const field = th.dataset.sort;
+            if (UIState.sortField === field) {
+              UIState.sortDirection = UIState.sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+              UIState.sortField = field;
+              UIState.sortDirection = 'asc';
+            }
+            Renderer.render();
+          });
+        });
+
+        document.getElementById('search-input').addEventListener('input', (e) => {
+          UIState.searchQuery = e.target.value;
+          UIState.currentPage = 1;
+          Renderer.render();
+        });
+        document.getElementById('filter-type').addEventListener('change', (e) => {
+          UIState.filterType = e.target.value;
+          UIState.currentPage = 1;
+          Renderer.render();
+        });
+        document.getElementById('filter-status').addEventListener('change', (e) => {
+          UIState.filterStatus = e.target.value;
+          UIState.currentPage = 1;
+          Renderer.render();
+        });
+
+        document.getElementById('btn-export').addEventListener('click', () => this.exportData());
+
+        document.getElementById('btn-import').addEventListener('click', () => {
+          document.getElementById('file-import').click();
+        });
+        document.getElementById('file-import').addEventListener('change', (e) => {
+          const file = e.target.files[0];
+          if (file) this.importData(file);
+          e.target.value = '';
+        });
+
+        document.getElementById('confirm-cancel').addEventListener('click', () => this.closeConfirm());
+        document.getElementById('confirm-close').addEventListener('click', () => this.closeConfirm());
+        document.getElementById('confirm-overlay').addEventListener('click', (e) => {
+          if (e.target === e.currentTarget) this.closeConfirm();
+        });
+        document.getElementById('confirm-ok').addEventListener('click', () => {
+          if (this._confirmCallback) this._confirmCallback();
+          this.closeConfirm();
+        });
+
+        document.getElementById('btn-theme').addEventListener('click', toggleTheme);
+      },
+
+      saveContract() {
+        const name = document.getElementById('field-name').value.trim();
+        const type = document.getElementById('field-type').value;
+        const sponsor = document.getElementById('field-sponsor').value.trim();
+
+        if (!name || !type || !sponsor) {
+          document.getElementById('contract-form').reportValidity();
+          return;
+        }
+
+        const data = {
+          name,
+          type,
+          sponsor,
+          pi: document.getElementById('field-pi').value.trim(),
+          fasNumber: document.getElementById('field-fas').value.trim(),
+          dateReceived: document.getElementById('field-date-received').value || '',
+          dateReviewed: document.getElementById('field-date-reviewed').value || '',
+          dateExecuted: document.getElementById('field-date-executed').value || '',
+          notes: document.getElementById('field-notes').value
+        };
+
+        if (UIState.editingId) {
+          Store.update(UIState.editingId, data);
+          showToast('Contract updated.');
+        } else {
+          Store.add(data);
+          showToast('Contract added.');
+        }
+
+        Renderer.closeModal();
+      },
+
+      confirmDelete(id) {
+        const contract = Store.getById(id);
+        if (!contract) return;
+        this.showConfirm(
+          'Delete Contract',
+          'Are you sure you want to delete "' + contract.name + '"? This cannot be undone.',
+          () => {
+            Store.remove(id);
+            if (PinStore.isPinned(id)) PinStore.toggle(id);
+            UIState.selectedIds.delete(id);
+            showToast('Contract deleted.');
+          }
+        );
+      },
+
+      exportData() {
+        const json = Store.exportJSON();
+        const blob = new Blob([json], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'contracts-export-' + new Date().toISOString().slice(0, 10) + '.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('Exported ' + Store.getAll().length + ' contract(s).');
+      },
+
+      importData(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          try {
+            const validated = Store.importJSON(e.target.result);
+            this.showConfirm(
+              'Import Data',
+              'This will replace all existing data with ' + validated.length + ' contract(s) from the file. Continue?',
+              () => {
+                Store.replaceAll(validated);
+                showToast('Imported ' + validated.length + ' contract(s).');
+              }
+            );
+          } catch (err) {
+            showToast('Import failed: ' + err.message);
+          }
+        };
+        reader.onerror = () => showToast('Failed to read file.');
+        reader.readAsText(file);
+      },
+
+      showConfirm(title, message, callback) {
+        document.getElementById('confirm-title').textContent = title;
+        document.getElementById('confirm-message').textContent = message;
+        this._confirmCallback = callback;
+        const overlay = document.getElementById('confirm-overlay');
+        overlay.removeAttribute('hidden');
+        void overlay.offsetHeight;
+        overlay.classList.add('visible');
+      },
+
+      closeConfirm() {
+        const overlay = document.getElementById('confirm-overlay');
+        overlay.classList.remove('visible');
+        this._confirmCallback = null;
       }
     };
 
-    window.updateContract = async function(id, data) {
-      setSyncing();
-      try {
-        await updateDoc(doc(db, 'contracts', id), { ...data, updatedAt: serverTimestamp() });
-        showToast('Contract updated.');
-      } catch (err) {
-        console.error(err);
-        showToast('Failed to update contract.');
-      }
-    };
-
-    window.deleteContract = async function(id) {
-      setSyncing();
-      try {
-        await deleteDoc(doc(db, 'contracts', id));
-        pins.delete(id);
-        savePins();
-        showToast('Contract deleted.');
-      } catch (err) {
-        console.error(err);
-        showToast('Failed to delete contract.');
-      }
-    };
-
-    /* ───────────── Type Dropdowns ───────────── */
-    function populateTypeDropdowns() {
-      const types = contractTypes.sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0)).map(t => t.name);
+    function refreshTypeDropdowns(selectedValue) {
       const filterType = document.getElementById('filter-type');
       const fieldType = document.getElementById('field-type');
-
-      const filterVal = filterType.value;
-      const fieldVal = fieldType.value;
-
-      filterType.innerHTML = '<option value="">All Types</option>' + types.map(t => `<option value="${escapeHtml(t)}">${escapeHtml(t)}</option>`).join('');
-      fieldType.innerHTML = '<option value="">Select type...</option>' + types.map(t => `<option value="${escapeHtml(t)}">${escapeHtml(t)}</option>`).join('');
-
-      filterType.value = filterVal;
-      fieldType.value = fieldVal;
+      const prevFilter = filterType.value;
+      TypeStore.populateDropdown(filterType, false);
+      TypeStore.populateDropdown(fieldType, true);
+      filterType.value = prevFilter;
+      if (selectedValue) fieldType.value = selectedValue;
     }
 
-    /* ───────────── Rendering ───────────── */
-    function render() {
-      renderDashboard();
-      renderTable();
-      updateSortIndicators();
-    }
+    // ── Init ──
+    document.addEventListener('DOMContentLoaded', async () => {
+      loadTheme();
+      SyncStatus.init();
+      SyncStatus.setSyncing();
+      
+      PinStore.load();
+      Renderer.init();
 
-    function renderDashboard() {
-      const stats = { total: contracts.length, received: 0, review: 0, executed: 0 };
-      contracts.forEach(c => {
-        const s = deriveStatus(c);
-        if (s === 'Received') stats.received++;
-        else if (s === 'Under Review') stats.review++;
-        else stats.executed++;
-      });
-      document.getElementById('stat-total').textContent = stats.total;
-      document.getElementById('stat-received').textContent = stats.received;
-      document.getElementById('stat-review').textContent = stats.review;
-      document.getElementById('stat-executed').textContent = stats.executed;
-    }
-
-    function renderTable() {
-      let filtered = applyFilters(contracts);
-      filtered = applySort(filtered);
-
-      // Pinned to top
-      filtered.sort((a, b) => {
-        const aPin = pins.has(a.id) ? 0 : 1;
-        const bPin = pins.has(b.id) ? 0 : 1;
-        return aPin - bPin;
-      });
-
-      const tbody = document.getElementById('contract-tbody');
-      const emptyState = document.getElementById('empty-state');
-      const pagination = document.getElementById('pagination');
-
-      if (filtered.length === 0) {
-        tbody.innerHTML = '';
-        emptyState.style.display = '';
-        pagination.style.display = 'none';
-        document.getElementById('empty-message').textContent = contracts.length === 0 ? 'No contracts yet.' : 'No contracts match your filters.';
-        document.getElementById('empty-hint').textContent = contracts.length === 0 ? 'Click "+ Add Contract" to get started.' : 'Try adjusting your search or filters.';
-        return;
-      }
-
-      emptyState.style.display = 'none';
-
-      // Pagination
-      const totalItems = filtered.length;
-      const totalPages = Math.ceil(totalItems / UIState.perPage);
-      if (UIState.currentPage > totalPages) UIState.currentPage = totalPages;
-      const start = (UIState.currentPage - 1) * UIState.perPage;
-      const end = Math.min(start + UIState.perPage, totalItems);
-      const pageItems = filtered.slice(start, end);
-
-      tbody.innerHTML = pageItems.map(c => buildRow(c)).join('');
-
-      if (totalItems > 10) {
-        pagination.style.display = 'flex';
-        document.getElementById('pagination-info').textContent = `Showing ${start + 1}-${end} of ${totalItems}`;
-
-        let controlsHtml = `<button class="btn btn-secondary" id="page-prev"${UIState.currentPage <= 1 ? ' disabled' : ''}>« Prev</button>`;
-        const maxVisible = 5;
-        let startPage = Math.max(1, UIState.currentPage - Math.floor(maxVisible / 2));
-        let endPage = Math.min(totalPages, startPage + maxVisible - 1);
-        if (endPage - startPage < maxVisible - 1) startPage = Math.max(1, endPage - maxVisible + 1);
-
-        for (let p = startPage; p <= endPage; p++) {
-          controlsHtml += `<button class="page-number${p === UIState.currentPage ? ' active' : ''}" data-page="${p}">${p}</button>`;
+      try {
+        const savedPerPage = localStorage.getItem(PAGING_STORAGE_KEY);
+        if (savedPerPage) {
+          UIState.perPage = parseInt(savedPerPage);
+          document.getElementById('per-page-select').value = UIState.perPage;
         }
-        controlsHtml += `<button class="btn btn-secondary" id="page-next"${UIState.currentPage >= totalPages ? ' disabled' : ''}>Next »</button>`;
-        document.getElementById('pagination-controls').innerHTML = controlsHtml;
-      } else {
-        pagination.style.display = 'none';
-      }
-    }
+      } catch (e) {}
 
-    function buildRow(c) {
-      const status = deriveStatus(c);
-      const badgeClass = status === 'Received' ? 'status-received' : status === 'Under Review' ? 'status-review' : 'status-executed';
-      const isPinned = pins.has(c.id);
+      // Initialize Firestore listeners
+      await Promise.all([
+        TypeStore.init(),
+        Store.init()
+      ]);
 
-      let agingHtml = '';
-      if (status !== 'Executed') {
-        const refDate = status === 'Under Review' ? c.dateReviewed : c.dateReceived;
-        const days = daysSince(refDate);
-        if (days !== null) {
-          if (days >= AGING_CRITICAL_DAYS) agingHtml = `<span class="aging-badge aging-critical">${days}d</span>`;
-          else if (days >= AGING_WARN_DAYS) agingHtml = `<span class="aging-badge aging-warn">${days}d</span>`;
+      refreshTypeDropdowns();
+
+      const fieldType = document.getElementById('field-type');
+      const addTypeRow = document.getElementById('add-type-row');
+      const addTypeInput = document.getElementById('add-type-input');
+
+      fieldType.addEventListener('change', () => {
+        if (fieldType.value === ADD_TYPE_VALUE) {
+          addTypeRow.style.display = 'flex';
+          addTypeInput.value = '';
+          addTypeInput.focus();
+          fieldType.value = '';
         }
-      }
-
-      return `
-        <tr data-id="${c.id}"${isPinned ? ' class="row-pinned"' : ''}>
-          <td><button class="btn-pin${isPinned ? ' pinned' : ''}" data-id="${c.id}" title="${isPinned ? 'Unpin' : 'Pin to top'}">${isPinned ? '★' : '☆'}</button></td>
-          <td class="col-name" title="${escapeHtml(c.name)}">${escapeHtml(c.name)}</td>
-          <td>${escapeHtml(c.type)}</td>
-          <td>${escapeHtml(c.sponsor || '')}</td>
-          <td>${escapeHtml(c.pi || '')}</td>
-          <td>${escapeHtml(c.fasNumber || '')}</td>
-          <td>${formatDate(c.dateReceived)}</td>
-          <td>${formatDate(c.dateReviewed)}</td>
-          <td>${formatDate(c.dateExecuted)}</td>
-          <td><span class="status-badge ${badgeClass}">${status}</span>${agingHtml}</td>
-          <td class="col-actions"><div class="col-actions-body">
-            <button class="btn btn-icon btn-edit" data-id="${c.id}" title="Edit">✎</button>
-            <button class="btn btn-icon btn-delete" data-id="${c.id}" title="Delete">🗑</button>
-          </div></td>
-        </tr>`;
-    }
-
-    function applyFilters(list) {
-      return list.filter(c => {
-        if (UIState.searchQuery) {
-          const q = UIState.searchQuery.toLowerCase();
-          if (!c.name.toLowerCase().includes(q) && !(c.sponsor || '').toLowerCase().includes(q)) return false;
-        }
-        if (UIState.filterType && c.type !== UIState.filterType) return false;
-        if (UIState.filterStatus && deriveStatus(c) !== UIState.filterStatus) return false;
-        return true;
       });
-    }
 
-    function applySort(list) {
-      const field = UIState.sortField;
-      const dir = UIState.sortDirection === 'asc' ? 1 : -1;
-      return [...list].sort((a, b) => {
-        let valA, valB;
-        if (field === 'status') {
-          const ORDER = { 'Received': 0, 'Under Review': 1, 'Executed': 2 };
-          valA = ORDER[deriveStatus(a)];
-          valB = ORDER[deriveStatus(b)];
-        } else if (field.startsWith('date')) {
-          valA = a[field] || '9999-12-31';
-          valB = b[field] || '9999-12-31';
+      document.getElementById('add-type-save').addEventListener('click', () => {
+        const newType = addTypeInput.value.trim();
+        if (!newType) { addTypeInput.focus(); return; }
+        if (TypeStore.add(newType)) {
+          refreshTypeDropdowns(newType);
+          addTypeRow.style.display = 'none';
+          showToast('Type "' + newType + '" added.');
         } else {
-          valA = (a[field] || '').toLowerCase();
-          valB = (b[field] || '').toLowerCase();
+          showToast('Type already exists.');
+          addTypeInput.focus();
         }
-        if (valA < valB) return -1 * dir;
-        if (valA > valB) return 1 * dir;
-        return 0;
       });
-    }
 
-    function updateSortIndicators() {
-      document.querySelectorAll('th.sortable').forEach(th => {
-        const icon = th.querySelector('.sort-icon');
-        if (th.dataset.sort === UIState.sortField) {
-          th.classList.add('sort-active');
-          icon.textContent = UIState.sortDirection === 'asc' ? ' ▲' : ' ▼';
+      document.getElementById('add-type-cancel').addEventListener('click', () => {
+        addTypeRow.style.display = 'none';
+      });
+
+      addTypeInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          document.getElementById('add-type-save').click();
+        }
+        if (e.key === 'Escape') {
+          addTypeRow.style.display = 'none';
+        }
+      });
+
+      const chartRows = document.getElementById('chart-monthly-rows');
+      const chartArrow = Renderer.els.chartToggleArrow;
+      try {
+        if (localStorage.getItem(CHART_COLLAPSED_KEY) === 'true') {
+          chartRows.classList.add('collapsed');
+          chartArrow.classList.remove('expanded');
+        }
+      } catch (e) {}
+      Renderer.els.chartMonthlyToggle.addEventListener('click', () => {
+        const isCollapsed = chartRows.classList.toggle('collapsed');
+        chartArrow.classList.toggle('expanded', !isCollapsed);
+        try { localStorage.setItem(CHART_COLLAPSED_KEY, isCollapsed); } catch (e) {}
+      });
+
+      document.getElementById('btn-settings').addEventListener('click', () => {
+        Renderer.openSettings();
+      });
+      document.getElementById('settings-close').addEventListener('click', () => {
+        Renderer.closeSettings();
+      });
+      document.getElementById('settings-done').addEventListener('click', () => {
+        Renderer.closeSettings();
+      });
+      document.getElementById('settings-overlay').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) Renderer.closeSettings();
+      });
+
+      document.getElementById('settings-add-type').addEventListener('click', () => {
+        const input = document.getElementById('settings-new-type');
+        const newType = input.value.trim();
+        if (!newType) { input.focus(); return; }
+        if (TypeStore.add(newType)) {
+          input.value = '';
+          Renderer.renderTypeList();
+          showToast('Type "' + newType + '" added.');
         } else {
-          th.classList.remove('sort-active');
-          icon.textContent = '';
+          showToast('Type already exists.');
+          input.focus();
         }
       });
-    }
-
-    /* ───────────── Modal ───────────── */
-    function openModal(contract) {
-      UIState.editingId = contract ? contract.id : null;
-      document.getElementById('modal-title').textContent = contract ? 'Edit Contract' : 'Add Contract';
-
-      document.getElementById('field-name').value = contract ? contract.name : '';
-      document.getElementById('field-type').value = contract ? contract.type : '';
-      document.getElementById('field-sponsor').value = contract ? (contract.sponsor || '') : '';
-      document.getElementById('field-pi').value = contract ? (contract.pi || '') : '';
-      document.getElementById('field-fas').value = contract ? (contract.fasNumber || '') : '';
-      document.getElementById('field-date-received').value = contract ? (contract.dateReceived || '') : '';
-      document.getElementById('field-date-reviewed').value = contract ? (contract.dateReviewed || '') : '';
-      document.getElementById('field-date-executed').value = contract ? (contract.dateExecuted || '') : '';
-      document.getElementById('field-notes').value = contract ? (contract.notes || '') : '';
-
-      updateStatusPreview();
-      validateDates();
-      document.getElementById('modal-overlay').classList.add('visible');
-      document.getElementById('field-name').focus();
-    }
-
-    function closeModal() {
-      document.getElementById('modal-overlay').classList.remove('visible');
-      UIState.editingId = null;
-    }
-
-    function updateStatusPreview() {
-      const mockContract = {
-        dateReceived: document.getElementById('field-date-received').value,
-        dateReviewed: document.getElementById('field-date-reviewed').value,
-        dateExecuted: document.getElementById('field-date-executed').value
-      };
-      const status = deriveStatus(mockContract);
-      const badge = document.getElementById('field-status-preview');
-      badge.textContent = status;
-      badge.className = 'status-badge ' + (status === 'Received' ? 'status-received' : status === 'Under Review' ? 'status-review' : 'status-executed');
-    }
-
-    function validateDates() {
-      const received = document.getElementById('field-date-received').value;
-      const reviewed = document.getElementById('field-date-reviewed').value;
-      const executed = document.getElementById('field-date-executed').value;
-      const warnings = [];
-      if (received && reviewed && reviewed < received) warnings.push('Reviewed date is before Received date.');
-      if (received && executed && executed < received) warnings.push('Executed date is before Received date.');
-      if (reviewed && executed && executed < reviewed) warnings.push('Executed date is before Reviewed date.');
-
-      const warningEl = document.getElementById('date-warning');
-      if (warnings.length > 0) {
-        document.getElementById('date-warning-text').textContent = warnings.join(' ');
-        warningEl.classList.add('visible');
-      } else {
-        warningEl.classList.remove('visible');
-      }
-    }
-
-    function saveContract() {
-      const name = document.getElementById('field-name').value.trim();
-      const type = document.getElementById('field-type').value;
-      const sponsor = document.getElementById('field-sponsor').value.trim();
-
-      if (!name || !type || !sponsor) {
-        document.getElementById('contract-form').reportValidity();
-        return;
-      }
-
-      const data = {
-        name,
-        type,
-        sponsor,
-        pi: document.getElementById('field-pi').value.trim(),
-        fasNumber: document.getElementById('field-fas').value.trim(),
-        dateReceived: document.getElementById('field-date-received').value || '',
-        dateReviewed: document.getElementById('field-date-reviewed').value || '',
-        dateExecuted: document.getElementById('field-date-executed').value || '',
-        notes: document.getElementById('field-notes').value
-      };
-
-      if (UIState.editingId) {
-        window.updateContract(UIState.editingId, data);
-      } else {
-        window.addContract(data);
-      }
-
-      closeModal();
-    }
-
-    /* ───────────── Confirm Dialog ───────────── */
-    let confirmCallback = null;
-
-    function showConfirm(title, message, callback) {
-      document.getElementById('confirm-title').textContent = title;
-      document.getElementById('confirm-message').textContent = message;
-      confirmCallback = callback;
-      document.getElementById('confirm-overlay').classList.add('visible');
-    }
-
-    function closeConfirm() {
-      document.getElementById('confirm-overlay').classList.remove('visible');
-      confirmCallback = null;
-    }
-
-    /* ───────────── Event Handlers ───────────── */
-    document.getElementById('btn-theme').addEventListener('click', toggleTheme);
-    document.getElementById('btn-add').addEventListener('click', () => openModal(null));
-    document.getElementById('btn-save').addEventListener('click', e => { e.preventDefault(); saveContract(); });
-    document.getElementById('btn-cancel').addEventListener('click', closeModal);
-    document.getElementById('modal-close').addEventListener('click', closeModal);
-    document.getElementById('modal-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
-
-    document.getElementById('contract-form').addEventListener('keydown', e => {
-      if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') { e.preventDefault(); saveContract(); }
-    });
-
-    ['field-date-received', 'field-date-reviewed', 'field-date-executed'].forEach(id => {
-      document.getElementById(id).addEventListener('change', () => { updateStatusPreview(); validateDates(); });
-    });
-
-    document.getElementById('contract-tbody').addEventListener('click', e => {
-      const pinBtn = e.target.closest('.btn-pin');
-      if (pinBtn) { togglePin(pinBtn.dataset.id); return; }
-
-      const btn = e.target.closest('button');
-      if (btn) {
-        const id = btn.dataset.id;
-        if (btn.classList.contains('btn-edit')) {
-          const contract = contracts.find(c => c.id === id);
-          if (contract) openModal(contract);
+      document.getElementById('settings-new-type').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          document.getElementById('settings-add-type').click();
         }
-        if (btn.classList.contains('btn-delete')) {
-          const contract = contracts.find(c => c.id === id);
-          if (contract) {
-            showConfirm('Delete Contract', `Are you sure you want to delete "${contract.name}"?`, () => window.deleteContract(id));
+      });
+
+      document.getElementById('settings-type-list').addEventListener('click', (e) => {
+        const btn = e.target.closest('button');
+        if (!btn) return;
+        const li = btn.closest('.type-item');
+        if (!li) return;
+        const typeName = li.dataset.type;
+
+        if (btn.classList.contains('btn-type-up')) {
+          TypeStore.move(typeName, 'up');
+          Renderer.renderTypeList();
+          return;
+        }
+
+        if (btn.classList.contains('btn-type-down')) {
+          TypeStore.move(typeName, 'down');
+          Renderer.renderTypeList();
+          return;
+        }
+
+        if (btn.classList.contains('btn-type-delete')) {
+          const count = TypeStore.countUsage(typeName);
+          if (count > 0) {
+            showToast('Cannot delete — type is in use.');
+            return;
           }
+          TypeStore.remove(typeName);
+          Renderer.renderTypeList();
+          showToast('Type "' + typeName + '" deleted.');
         }
-        return;
-      }
 
-      const row = e.target.closest('tr');
-      if (row) {
-        const contract = contracts.find(c => c.id === row.dataset.id);
-        if (contract) openModal(contract);
-      }
-    });
+        if (btn.classList.contains('btn-type-rename')) {
+          const nameSpan = li.querySelector('.type-item-name');
+          const currentName = typeName;
+          const input = document.createElement('input');
+          input.type = 'text';
+          input.className = 'type-item-input';
+          input.value = currentName;
+          nameSpan.replaceWith(input);
+          input.focus();
+          input.select();
 
-    document.getElementById('pagination-controls').addEventListener('click', e => {
-      const btn = e.target.closest('button');
-      if (!btn) return;
-      if (btn.id === 'page-prev' && UIState.currentPage > 1) { UIState.currentPage--; render(); }
-      else if (btn.id === 'page-next') { UIState.currentPage++; render(); }
-      else if (btn.dataset.page) { UIState.currentPage = parseInt(btn.dataset.page); render(); }
-    });
+          btn.innerHTML = '&#10003;';
+          btn.classList.remove('btn-type-rename');
+          btn.classList.add('btn-type-save-rename');
+          btn.title = 'Save';
 
-    document.getElementById('per-page-select').addEventListener('change', e => {
-      UIState.perPage = parseInt(e.target.value);
-      UIState.currentPage = 1;
-      localStorage.setItem(PAGING_KEY, UIState.perPage);
-      render();
-    });
+          const doSave = () => {
+            const newName = input.value.trim();
+            if (!newName || newName === currentName) {
+              Renderer.renderTypeList();
+              return;
+            }
+            if (TypeStore.rename(currentName, newName)) {
+              Renderer.renderTypeList();
+              Renderer.render();
+              showToast('Renamed to "' + newName + '".');
+            } else {
+              showToast('Name already exists or invalid.');
+              input.focus();
+            }
+          };
 
-    document.querySelectorAll('th.sortable').forEach(th => {
-      th.addEventListener('click', () => {
-        const field = th.dataset.sort;
-        if (UIState.sortField === field) {
-          UIState.sortDirection = UIState.sortDirection === 'asc' ? 'desc' : 'asc';
-        } else {
-          UIState.sortField = field;
-          UIState.sortDirection = 'asc';
+          input.addEventListener('keydown', (ev) => {
+            if (ev.key === 'Enter') { ev.preventDefault(); doSave(); }
+            if (ev.key === 'Escape') { Renderer.renderTypeList(); }
+          });
+          input.addEventListener('blur', () => {
+            setTimeout(() => {
+              if (document.activeElement !== input) {
+                Renderer.renderTypeList();
+              }
+            }, 150);
+          });
+
+          btn.addEventListener('click', (ev) => {
+            ev.stopPropagation();
+            doSave();
+          }, { once: true });
         }
-        render();
       });
+
+      // Scan Folder wiring
+      document.getElementById('btn-scan-folder').addEventListener('click', () => {
+        FolderScanner.scanFolder();
+      });
+      document.getElementById('folder-scan-input').addEventListener('change', (e) => {
+        if (e.target.files.length > 0) FolderScanner.processFiles(e.target.files);
+      });
+      document.getElementById('scan-close').addEventListener('click', () => {
+        FolderScanner.closeScanModal();
+      });
+      document.getElementById('scan-cancel').addEventListener('click', () => {
+        FolderScanner.closeScanModal();
+      });
+      document.getElementById('scan-overlay').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) FolderScanner.closeScanModal();
+      });
+      document.getElementById('scan-import').addEventListener('click', () => {
+        FolderScanner.importSelected();
+      });
+      document.getElementById('scan-check-all').addEventListener('change', (e) => {
+        document.querySelectorAll('.scan-row-check').forEach(cb => {
+          cb.checked = e.target.checked;
+        });
+      });
+      document.getElementById('scan-select-all').addEventListener('click', () => {
+        document.querySelectorAll('.scan-row-check').forEach(cb => cb.checked = true);
+        document.getElementById('scan-check-all').checked = true;
+      });
+      document.getElementById('scan-deselect-all').addEventListener('click', () => {
+        document.querySelectorAll('.scan-row-check').forEach(cb => cb.checked = false);
+        document.getElementById('scan-check-all').checked = false;
+      });
+
+      Handlers.init();
+      Renderer.render();
     });
-
-    document.getElementById('search-input').addEventListener('input', e => {
-      UIState.searchQuery = e.target.value;
-      UIState.currentPage = 1;
-      render();
-    });
-
-    document.getElementById('filter-type').addEventListener('change', e => {
-      UIState.filterType = e.target.value;
-      UIState.currentPage = 1;
-      render();
-    });
-
-    document.getElementById('filter-status').addEventListener('change', e => {
-      UIState.filterStatus = e.target.value;
-      UIState.currentPage = 1;
-      render();
-    });
-
-    document.getElementById('confirm-cancel').addEventListener('click', closeConfirm);
-    document.getElementById('confirm-close').addEventListener('click', closeConfirm);
-    document.getElementById('confirm-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeConfirm(); });
-    document.getElementById('confirm-ok').addEventListener('click', () => { if (confirmCallback) confirmCallback(); closeConfirm(); });
-
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') {
-        if (document.getElementById('confirm-overlay').classList.contains('visible')) closeConfirm();
-        else if (document.getElementById('modal-overlay').classList.contains('visible')) closeModal();
-      }
-    });
-
-    /* ───────────── Init ───────────── */
-    loadTheme();
-    loadPins();
-
-    try {
-      const savedPerPage = localStorage.getItem(PAGING_KEY);
-      if (savedPerPage) {
-        UIState.perPage = parseInt(savedPerPage);
-        document.getElementById('per-page-select').value = UIState.perPage;
-      }
-    } catch (e) {}
   </script>
 </body>
 </html>
