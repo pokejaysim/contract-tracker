@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contract Tracker</title>
+  <style>
+    :root {
+      --color-primary: #3b6ea5;
+      --color-primary-hover: #2d5a8a;
+      --color-primary-light: #e8f0f8;
+      --color-bg: #f5f7fa;
+      --color-surface: #ffffff;
+      --color-border: #dde3ea;
+      --color-text: #1e293b;
+      --color-text-secondary: #64748b;
+      --color-text-muted: #94a3b8;
+      --status-received-bg: #fef3c7;
+      --status-received-text: #92400e;
+      --status-received-border: #f59e0b;
+      --status-review-bg: #dbeafe;
+      --status-review-text: #1e40af;
+      --status-review-border: #3b82f6;
+      --status-executed-bg: #d1fae5;
+      --status-executed-text: #065f46;
+      --status-executed-border: #10b981;
+      --color-danger: #dc2626;
+      --color-danger-hover: #b91c1c;
+      --color-warning: #f59e0b;
+      --color-warning-bg: #fffbeb;
+      --color-warning-text: #92400e;
+      --color-success: #10b981;
+      --max-width: 1200px;
+      --radius: 8px;
+      --radius-sm: 4px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      --font-size-sm: 0.8125rem;
+      --font-size-base: 0.9375rem;
+      --font-size-lg: 1.125rem;
+      --font-size-xl: 1.5rem;
+    }
+    [data-theme="dark"] {
+      --color-primary: #5b9bd5;
+      --color-primary-hover: #7ab3e8;
+      --color-primary-light: #1e2d3d;
+      --color-bg: #0f172a;
+      --color-surface: #1e293b;
+      --color-border: #334155;
+      --color-text: #e2e8f0;
+      --color-text-secondary: #94a3b8;
+      --color-text-muted: #64748b;
+      --status-received-bg: #422006;
+      --status-received-text: #fbbf24;
+      --status-review-bg: #172554;
+      --status-review-text: #93c5fd;
+      --status-executed-bg: #052e16;
+      --status-executed-text: #6ee7b7;
+      --color-warning-bg: #422006;
+      --color-warning-text: #fbbf24;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
+      --shadow-lg: 0 8px 24px rgba(0,0,0,0.4);
+    }
+    [data-theme="dark"] .modal-overlay { background: rgba(0, 0, 0, 0.65); }
+    [data-theme="dark"] .btn-secondary { background: var(--color-surface); border-color: var(--color-border); color: var(--color-text); }
+    [data-theme="dark"] .search-wrapper input, [data-theme="dark"] .toolbar select { background: var(--color-surface); }
+    [data-theme="dark"] .contract-table th.sortable:hover { background: #2d3d52; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-family); font-size: var(--font-size-base); color: var(--color-text); background: var(--color-bg); line-height: 1.5; transition: background-color 0.3s ease, color 0.3s ease; }
+    .app-container { max-width: var(--max-width); margin: 0 auto; padding: var(--space-lg); }
+    .app-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-md); margin-bottom: var(--space-xl); }
+    .app-title { font-size: var(--font-size-xl); font-weight: 700; color: var(--color-primary); display: flex; align-items: center; gap: var(--space-sm); }
+    .app-title svg { width: 28px; height: 28px; }
+    .header-actions { display: flex; gap: var(--space-sm); align-items: center; }
+    .sync-status { display: flex; align-items: center; gap: 6px; font-size: var(--font-size-sm); color: var(--color-text-muted); padding: 4px 10px; background: var(--color-surface); border-radius: 20px; border: 1px solid var(--color-border); }
+    .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-success); }
+    .sync-dot.syncing { background: var(--color-warning); animation: pulse 1s infinite; }
+    .sync-dot.error { background: var(--color-danger); }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .btn { display: inline-flex; align-items: center; gap: var(--space-xs); padding: 8px 16px; border: none; border-radius: var(--radius-sm); font-family: var(--font-family); font-size: var(--font-size-sm); font-weight: 500; cursor: pointer; transition: background-color 0.15s ease; white-space: nowrap; }
+    .btn-primary { background: var(--color-primary); color: #fff; }
+    .btn-primary:hover { background: var(--color-primary-hover); }
+    .btn-secondary { background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); }
+    .btn-secondary:hover { background: var(--color-primary-light); }
+    .btn-danger { background: var(--color-danger); color: #fff; }
+    .btn-danger:hover { background: var(--color-danger-hover); }
+    .btn-icon { padding: 4px 8px; background: transparent; color: var(--color-text-secondary); font-size: 1rem; border: 1px solid transparent; border-radius: var(--radius-sm); }
+    .btn-icon:hover { background: var(--color-primary-light); color: var(--color-primary); }
+    .btn-icon.btn-delete:hover { background: #fee2e2; color: var(--color-danger); }
+    .theme-toggle { background: none; border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 6px 10px; cursor: pointer; font-size: 1.1rem; line-height: 1; color: var(--color-text-secondary); }
+    .theme-toggle:hover { background: var(--color-primary-light); border-color: var(--color-primary); }
+    .dashboard { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-md); margin-bottom: var(--space-md); }
+    .stat-card { background: var(--color-surface); border-radius: var(--radius); padding: var(--space-lg); box-shadow: var(--shadow-sm); border-left: 4px solid var(--color-border); display: flex; flex-direction: column; gap: var(--space-xs); }
+    .stat-card.stat-total { border-left-color: var(--color-primary); }
+    .stat-card.stat-received { border-left-color: var(--status-received-border); }
+    .stat-card.stat-review { border-left-color: var(--status-review-border); }
+    .stat-card.stat-executed { border-left-color: var(--status-executed-border); }
+    .stat-number { font-size: 2rem; font-weight: 700; line-height: 1; }
+    .stat-total .stat-number { color: var(--color-primary); }
+    .stat-received .stat-number { color: var(--status-received-text); }
+    .stat-review .stat-number { color: var(--status-review-text); }
+    .stat-executed .stat-number { color: var(--status-executed-text); }
+    .stat-label { font-size: var(--font-size-sm); color: var(--color-text-secondary); font-weight: 500; }
+    .toolbar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md); }
+    .toolbar-left { display: flex; flex-wrap: wrap; gap: var(--space-sm); flex: 1; }
+    .search-wrapper { position: relative; flex: 1; min-width: 200px; max-width: 320px; }
+    .search-wrapper::before { content: '🔍'; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--color-text-muted); font-size: var(--font-size-sm); pointer-events: none; }
+    .search-wrapper input { width: 100%; padding: 8px 12px 8px 30px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); font-family: var(--font-family); font-size: var(--font-size-sm); color: var(--color-text); background: var(--color-surface); }
+    .search-wrapper input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 2px rgba(59,110,165,0.15); }
+    .search-wrapper input::placeholder { color: var(--color-text-muted); }
+    .toolbar select { padding: 8px 12px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); font-family: var(--font-family); font-size: var(--font-size-sm); color: var(--color-text); background: var(--color-surface); cursor: pointer; }
+    .toolbar select:focus { outline: none; border-color: var(--color-primary); }
+    .toolbar-right { display: flex; gap: var(--space-sm); align-items: center; }
+    .table-container { background: var(--color-surface); border-radius: var(--radius); box-shadow: var(--shadow-sm); overflow-x: auto; }
+    .contract-table { width: 100%; border-collapse: collapse; }
+    .contract-table th, .contract-table td { padding: 12px 14px; text-align: left; white-space: nowrap; }
+    .contract-table thead { background: var(--color-primary-light); border-bottom: 2px solid var(--color-border); }
+    .contract-table th { font-size: var(--font-size-sm); font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.03em; user-select: none; }
+    .contract-table th.sortable { cursor: pointer; }
+    .contract-table th.sortable:hover { background: #d6e4f0; }
+    .contract-table th.sort-active { color: var(--color-primary); }
+    .sort-icon { font-size: 0.7rem; margin-left: 2px; }
+    .contract-table tbody tr { border-bottom: 1px solid var(--color-border); cursor: pointer; transition: background-color 0.1s ease; }
+    .contract-table tbody tr:hover { background: var(--color-primary-light); }
+    .contract-table tbody tr:last-child { border-bottom: none; }
+    .contract-table td { font-size: var(--font-size-sm); color: var(--color-text); }
+    .col-name { max-width: 200px; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
+    .col-actions { text-align: center; white-space: nowrap; }
+    .col-actions-body { display: flex; gap: var(--space-xs); justify-content: center; }
+    .btn-pin { cursor: pointer; font-size: 1rem; background: transparent; border: none; padding: 2px 4px; color: var(--color-text-muted); }
+    .btn-pin:hover { color: var(--color-warning); }
+    .btn-pin.pinned { color: var(--color-warning); }
+    .contract-table tbody tr.row-pinned { background: var(--color-warning-bg); }
+    .contract-table tbody tr.row-pinned:hover { background: #fef3c7; }
+    [data-theme="dark"] .contract-table tbody tr.row-pinned { background: rgba(245, 158, 11, 0.08); }
+    .aging-badge { display: inline-flex; align-items: center; gap: 3px; font-size: 0.7rem; padding: 1px 6px; border-radius: 8px; font-weight: 600; margin-left: 6px; }
+    .aging-warn { background: #fef3c7; color: #92400e; }
+    .aging-critical { background: #fee2e2; color: #991b1b; }
+    [data-theme="dark"] .aging-warn { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+    [data-theme="dark"] .aging-critical { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+    .status-badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: var(--font-size-sm); font-weight: 600; white-space: nowrap; }
+    .status-received { background: var(--status-received-bg); color: var(--status-received-text); }
+    .status-review { background: var(--status-review-bg); color: var(--status-review-text); }
+    .status-executed { background: var(--status-executed-bg); color: var(--status-executed-text); }
+    .empty-state { padding: var(--space-xl) var(--space-lg); text-align: center; color: var(--color-text-muted); }
+    .empty-state p { font-size: var(--font-size-base); margin-bottom: var(--space-xs); }
+    .empty-state .empty-hint { font-size: var(--font-size-sm); }
+    .pagination { display: flex; justify-content: space-between; align-items: center; padding: var(--space-md); border-top: 1px solid var(--color-border); font-size: var(--font-size-sm); color: var(--color-text-secondary); }
+    .pagination-info { flex: 1; }
+    .pagination-controls { display: flex; align-items: center; gap: var(--space-xs); }
+    .pagination-controls .btn { padding: 4px 10px; font-size: var(--font-size-sm); }
+    .pagination-controls .btn:disabled { opacity: 0.4; cursor: default; pointer-events: none; }
+    .page-number { padding: 4px 10px; font-size: var(--font-size-sm); border-radius: var(--radius-sm); cursor: pointer; border: 1px solid transparent; background: transparent; color: var(--color-text-secondary); font-family: var(--font-family); }
+    .page-number:hover { background: var(--color-primary-light); }
+    .page-number.active { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
+    .pagination-per-page { display: flex; align-items: center; gap: var(--space-xs); }
+    .pagination-per-page select { padding: 3px 6px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); font-family: var(--font-family); font-size: var(--font-size-sm); color: var(--color-text); background: var(--color-surface); }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.2s ease, visibility 0.2s ease; padding: var(--space-md); }
+    .modal-overlay.visible { opacity: 1; visibility: visible; pointer-events: auto; }
+    .modal { background: var(--color-surface); border-radius: var(--radius); box-shadow: var(--shadow-lg); max-width: 600px; width: 100%; max-height: calc(100vh - 40px); display: flex; flex-direction: column; transform: translateY(-10px); transition: transform 0.2s ease; }
+    .modal-overlay.visible .modal { transform: translateY(0); }
+    .modal-sm { max-width: 420px; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; padding: var(--space-lg) var(--space-lg) var(--space-md); border-bottom: 1px solid var(--color-border); }
+    .modal-header h2 { font-size: var(--font-size-lg); font-weight: 600; }
+    .modal-close { background: none; border: none; font-size: 1.5rem; color: var(--color-text-secondary); cursor: pointer; padding: 0 4px; line-height: 1; }
+    .modal-close:hover { color: var(--color-text); }
+    .modal-body { padding: var(--space-lg); overflow-y: auto; flex: 1; }
+    .modal-footer { display: flex; justify-content: flex-end; gap: var(--space-sm); padding: var(--space-md) var(--space-lg) var(--space-lg); border-top: 1px solid var(--color-border); }
+    .form-group { margin-bottom: var(--space-md); }
+    .form-group label { display: block; font-size: var(--font-size-sm); font-weight: 600; color: var(--color-text-secondary); margin-bottom: var(--space-xs); }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px 12px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); font-family: var(--font-family); font-size: var(--font-size-base); color: var(--color-text); background: var(--color-surface); }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 2px rgba(59,110,165,0.15); }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .form-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); }
+    .form-row-2col { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-md); }
+    .form-hint { display: block; font-size: var(--font-size-sm); color: var(--color-text-muted); margin-top: var(--space-xs); }
+    .status-preview-row { display: flex; align-items: center; gap: var(--space-sm); }
+    .date-warning { display: none; align-items: center; gap: var(--space-xs); font-size: var(--font-size-sm); color: var(--color-warning-text); background: var(--color-warning-bg); padding: 6px 10px; border-radius: var(--radius-sm); border: 1px solid var(--color-warning); margin-top: var(--space-xs); }
+    .date-warning.visible { display: flex; }
+    .toast { position: fixed; bottom: var(--space-lg); right: var(--space-lg); background: var(--color-text); color: #fff; padding: 12px 20px; border-radius: var(--radius); font-size: var(--font-size-sm); box-shadow: var(--shadow-md); z-index: 2000; opacity: 0; transform: translateY(10px); transition: opacity 0.2s ease, transform 0.2s ease; pointer-events: none; }
+    .toast.visible { opacity: 1; transform: translateY(0); }
+    @media (max-width: 768px) {
+      .dashboard { grid-template-columns: repeat(2, 1fr); }
+      .form-row, .form-row-2col { grid-template-columns: 1fr; }
+      .toolbar { flex-direction: column; align-items: stretch; }
+      .toolbar-left { flex-direction: column; }
+      .search-wrapper { max-width: none; }
+    }
+    @media (max-width: 480px) {
+      .app-container { padding: var(--space-md); }
+      .dashboard { grid-template-columns: 1fr; }
+      .app-header { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <h1 class="app-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+        </svg>
+        Contract Tracker
+      </h1>
+      <div class="header-actions">
+        <div class="sync-status">
+          <span class="sync-dot syncing" id="sync-dot"></span>
+          <span id="sync-text">Connecting...</span>
+        </div>
+        <button class="theme-toggle" id="btn-theme" title="Toggle dark mode">☽</button>
+      </div>
+    </header>
+
+    <section class="dashboard">
+      <div class="stat-card stat-total">
+        <span class="stat-number" id="stat-total">0</span>
+        <span class="stat-label">Total Contracts</span>
+      </div>
+      <div class="stat-card stat-received">
+        <span class="stat-number" id="stat-received">0</span>
+        <span class="stat-label">Received</span>
+      </div>
+      <div class="stat-card stat-review">
+        <span class="stat-number" id="stat-review">0</span>
+        <span class="stat-label">Under Review</span>
+      </div>
+      <div class="stat-card stat-executed">
+        <span class="stat-number" id="stat-executed">0</span>
+        <span class="stat-label">Executed</span>
+      </div>
+    </section>
+
+    <section class="toolbar">
+      <div class="toolbar-left">
+        <div class="search-wrapper">
+          <input type="text" id="search-input" placeholder="Search by title or sponsor...">
+        </div>
+        <select id="filter-type">
+          <option value="">All Types</option>
+        </select>
+        <select id="filter-status">
+          <option value="">All Statuses</option>
+          <option value="Received">Received</option>
+          <option value="Under Review">Under Review</option>
+          <option value="Executed">Executed</option>
+        </select>
+      </div>
+      <div class="toolbar-right">
+        <button class="btn btn-primary" id="btn-add">+ Add Contract</button>
+      </div>
+    </section>
+
+    <section class="table-container">
+      <table class="contract-table" id="contract-table">
+        <thead>
+          <tr>
+            <th style="width:30px;"></th>
+            <th data-sort="name" class="sortable">Protocol/Study Title <span class="sort-icon"></span></th>
+            <th data-sort="type" class="sortable">Type <span class="sort-icon"></span></th>
+            <th data-sort="sponsor" class="sortable">Sponsor <span class="sort-icon"></span></th>
+            <th data-sort="pi" class="sortable">PI <span class="sort-icon"></span></th>
+            <th data-sort="fasNumber" class="sortable">FAS# <span class="sort-icon"></span></th>
+            <th data-sort="dateReceived" class="sortable">Received <span class="sort-icon"></span></th>
+            <th data-sort="dateReviewed" class="sortable">Reviewed <span class="sort-icon"></span></th>
+            <th data-sort="dateExecuted" class="sortable">Executed <span class="sort-icon"></span></th>
+            <th data-sort="status" class="sortable">Status <span class="sort-icon"></span></th>
+            <th class="col-actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="contract-tbody"></tbody>
+      </table>
+      <div id="empty-state" class="empty-state">
+        <p id="empty-message">No contracts yet.</p>
+        <span class="empty-hint" id="empty-hint">Click "+ Add Contract" to get started.</span>
+      </div>
+      <div class="pagination" id="pagination" style="display:none;">
+        <div class="pagination-info" id="pagination-info"></div>
+        <div class="pagination-controls" id="pagination-controls"></div>
+        <div class="pagination-per-page">
+          <span>Per page:</span>
+          <select id="per-page-select">
+            <option value="10">10</option>
+            <option value="25" selected>25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Add/Edit Modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modal-title">Add Contract</h2>
+        <button class="modal-close" id="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="contract-form" novalidate>
+          <div class="form-group">
+            <label for="field-name">Protocol/Study Title *</label>
+            <input type="text" id="field-name" required placeholder="e.g. Phase III Clinical Study">
+          </div>
+          <div class="form-group">
+            <label for="field-type">Contract Type *</label>
+            <select id="field-type" required>
+              <option value="">Select type...</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="field-sponsor">Sponsor *</label>
+            <input type="text" id="field-sponsor" required placeholder="e.g. NIH, NSF, Acme Corp">
+          </div>
+          <div class="form-row-2col">
+            <div class="form-group">
+              <label for="field-pi">Principal Investigator</label>
+              <input type="text" id="field-pi" placeholder="e.g. Dr. Jane Smith">
+            </div>
+            <div class="form-group">
+              <label for="field-fas">FAS#</label>
+              <input type="text" id="field-fas" placeholder="e.g. FAS-2025-0042">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="field-date-received">Date Received</label>
+              <input type="date" id="field-date-received">
+            </div>
+            <div class="form-group">
+              <label for="field-date-reviewed">Date Reviewed</label>
+              <input type="date" id="field-date-reviewed">
+            </div>
+            <div class="form-group">
+              <label for="field-date-executed">Date Executed</label>
+              <input type="date" id="field-date-executed">
+            </div>
+          </div>
+          <div class="date-warning" id="date-warning">
+            <span>⚠</span>
+            <span id="date-warning-text"></span>
+          </div>
+          <div class="form-group">
+            <label for="field-notes">Notes</label>
+            <textarea id="field-notes" rows="4" placeholder="Personal notes about this contract..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Status</label>
+            <div class="status-preview-row">
+              <span id="field-status-preview" class="status-badge status-received">Received</span>
+              <span class="form-hint">Auto-derived from dates above</span>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-cancel">Cancel</button>
+        <button class="btn btn-primary" id="btn-save">Save Contract</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm Dialog -->
+  <div class="modal-overlay" id="confirm-overlay">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h2 id="confirm-title">Confirm</h2>
+        <button class="modal-close" id="confirm-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="confirm-message">Are you sure?</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="confirm-cancel">Cancel</button>
+        <button class="btn btn-danger" id="confirm-ok">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+    import {
+      getFirestore, collection, addDoc, updateDoc, deleteDoc,
+      doc, onSnapshot, serverTimestamp, query, orderBy
+    } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDtU3Vyn54GRCwTUVlRqH6ehVqQ7TUEFqc",
+      authDomain: "pjs-apps.firebaseapp.com",
+      projectId: "pjs-apps",
+      storageBucket: "pjs-apps.firebasestorage.app",
+      messagingSenderId: "1009743777636",
+      appId: "1:1009743777636:web:b235932aca965729aef471",
+      measurementId: "G-LQWXFJZ60V"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const contractsCol = collection(db, "contracts");
+    const typesCol = collection(db, "contract_types");
+
+    const THEME_KEY = 'contractTracker_theme';
+    const PINS_KEY = 'contractTracker_pins';
+    const PAGING_KEY = 'contractTracker_perPage';
+    const AGING_WARN_DAYS = 14;
+    const AGING_CRITICAL_DAYS = 30;
+
+    const DEFAULT_TYPES = ['NDA', 'MSA', 'SOW', 'Amendment', 'Renewal', 'CTA', 'DTA', 'MTA', 'Consulting Agreement', 'Service Agreement'];
+
+    let contracts = [];
+    let contractTypes = [];
+    let pins = new Set();
+
+    const UIState = {
+      searchQuery: '',
+      filterType: '',
+      filterStatus: '',
+      sortField: 'dateReceived',
+      sortDirection: 'desc',
+      editingId: null,
+      currentPage: 1,
+      perPage: 25
+    };
+
+    /* ───────────── Helpers ───────────── */
+    function deriveStatus(c) {
+      if (c.dateExecuted) return 'Executed';
+      if (c.dateReviewed) return 'Under Review';
+      return 'Received';
+    }
+
+    function daysSince(dateStr) {
+      if (!dateStr) return null;
+      const then = new Date(dateStr + 'T00:00:00');
+      const now = new Date();
+      now.setHours(0, 0, 0, 0);
+      return Math.floor((now - then) / (1000 * 60 * 60 * 24));
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str || '';
+      return div.innerHTML;
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return '<span style="color:var(--color-text-muted)">--</span>';
+      const [y, m, d] = dateStr.split('-');
+      return `${m}/${d}/${y}`;
+    }
+
+    /* ───────────── Sync Status ───────────── */
+    function setSynced() {
+      document.getElementById('sync-dot').className = 'sync-dot';
+      document.getElementById('sync-text').textContent = 'Synced';
+    }
+
+    function setSyncing() {
+      document.getElementById('sync-dot').className = 'sync-dot syncing';
+      document.getElementById('sync-text').textContent = 'Syncing...';
+    }
+
+    function setError() {
+      document.getElementById('sync-dot').className = 'sync-dot error';
+      document.getElementById('sync-text').textContent = 'Offline';
+    }
+
+    /* ───────────── Toast ───────────── */
+    let toastTimer = null;
+    function showToast(message) {
+      const el = document.getElementById('toast');
+      el.textContent = message;
+      el.classList.add('visible');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.remove('visible'), 2500);
+    }
+
+    /* ───────────── Theme ───────────── */
+    function loadTheme() {
+      const saved = localStorage.getItem(THEME_KEY);
+      if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+      updateThemeIcon();
+    }
+
+    function toggleTheme() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem(THEME_KEY, 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem(THEME_KEY, 'dark');
+      }
+      updateThemeIcon();
+    }
+
+    function updateThemeIcon() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      document.getElementById('btn-theme').innerHTML = isDark ? '☀' : '☽';
+    }
+
+    /* ───────────── Pins (local) ───────────── */
+    function loadPins() {
+      try {
+        const raw = localStorage.getItem(PINS_KEY);
+        pins = raw ? new Set(JSON.parse(raw)) : new Set();
+      } catch (e) { pins = new Set(); }
+    }
+
+    function savePins() {
+      localStorage.setItem(PINS_KEY, JSON.stringify([...pins]));
+    }
+
+    function togglePin(id) {
+      if (pins.has(id)) pins.delete(id);
+      else pins.add(id);
+      savePins();
+      render();
+    }
+
+    /* ───────────── Firebase Listeners ───────────── */
+    onSnapshot(query(contractsCol, orderBy("createdAt", "desc")), snap => {
+      contracts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      setSynced();
+      render();
+    }, err => {
+      console.error('Contracts error:', err);
+      setError();
+    });
+
+    onSnapshot(typesCol, snap => {
+      contractTypes = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      if (contractTypes.length === 0) {
+        DEFAULT_TYPES.forEach(name => addDoc(typesCol, { name, sortOrder: DEFAULT_TYPES.indexOf(name) }));
+      }
+      populateTypeDropdowns();
+    }, err => {
+      console.error('Types error:', err);
+    });
+
+    /* ───────────── CRUD ───────────── */
+    window.addContract = async function(data) {
+      setSyncing();
+      try {
+        await addDoc(contractsCol, { ...data, createdAt: serverTimestamp() });
+        showToast('Contract added.');
+      } catch (err) {
+        console.error(err);
+        showToast('Failed to add contract.');
+      }
+    };
+
+    window.updateContract = async function(id, data) {
+      setSyncing();
+      try {
+        await updateDoc(doc(db, 'contracts', id), { ...data, updatedAt: serverTimestamp() });
+        showToast('Contract updated.');
+      } catch (err) {
+        console.error(err);
+        showToast('Failed to update contract.');
+      }
+    };
+
+    window.deleteContract = async function(id) {
+      setSyncing();
+      try {
+        await deleteDoc(doc(db, 'contracts', id));
+        pins.delete(id);
+        savePins();
+        showToast('Contract deleted.');
+      } catch (err) {
+        console.error(err);
+        showToast('Failed to delete contract.');
+      }
+    };
+
+    /* ───────────── Type Dropdowns ───────────── */
+    function populateTypeDropdowns() {
+      const types = contractTypes.sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0)).map(t => t.name);
+      const filterType = document.getElementById('filter-type');
+      const fieldType = document.getElementById('field-type');
+
+      const filterVal = filterType.value;
+      const fieldVal = fieldType.value;
+
+      filterType.innerHTML = '<option value="">All Types</option>' + types.map(t => `<option value="${escapeHtml(t)}">${escapeHtml(t)}</option>`).join('');
+      fieldType.innerHTML = '<option value="">Select type...</option>' + types.map(t => `<option value="${escapeHtml(t)}">${escapeHtml(t)}</option>`).join('');
+
+      filterType.value = filterVal;
+      fieldType.value = fieldVal;
+    }
+
+    /* ───────────── Rendering ───────────── */
+    function render() {
+      renderDashboard();
+      renderTable();
+      updateSortIndicators();
+    }
+
+    function renderDashboard() {
+      const stats = { total: contracts.length, received: 0, review: 0, executed: 0 };
+      contracts.forEach(c => {
+        const s = deriveStatus(c);
+        if (s === 'Received') stats.received++;
+        else if (s === 'Under Review') stats.review++;
+        else stats.executed++;
+      });
+      document.getElementById('stat-total').textContent = stats.total;
+      document.getElementById('stat-received').textContent = stats.received;
+      document.getElementById('stat-review').textContent = stats.review;
+      document.getElementById('stat-executed').textContent = stats.executed;
+    }
+
+    function renderTable() {
+      let filtered = applyFilters(contracts);
+      filtered = applySort(filtered);
+
+      // Pinned to top
+      filtered.sort((a, b) => {
+        const aPin = pins.has(a.id) ? 0 : 1;
+        const bPin = pins.has(b.id) ? 0 : 1;
+        return aPin - bPin;
+      });
+
+      const tbody = document.getElementById('contract-tbody');
+      const emptyState = document.getElementById('empty-state');
+      const pagination = document.getElementById('pagination');
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '';
+        emptyState.style.display = '';
+        pagination.style.display = 'none';
+        document.getElementById('empty-message').textContent = contracts.length === 0 ? 'No contracts yet.' : 'No contracts match your filters.';
+        document.getElementById('empty-hint').textContent = contracts.length === 0 ? 'Click "+ Add Contract" to get started.' : 'Try adjusting your search or filters.';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+
+      // Pagination
+      const totalItems = filtered.length;
+      const totalPages = Math.ceil(totalItems / UIState.perPage);
+      if (UIState.currentPage > totalPages) UIState.currentPage = totalPages;
+      const start = (UIState.currentPage - 1) * UIState.perPage;
+      const end = Math.min(start + UIState.perPage, totalItems);
+      const pageItems = filtered.slice(start, end);
+
+      tbody.innerHTML = pageItems.map(c => buildRow(c)).join('');
+
+      if (totalItems > 10) {
+        pagination.style.display = 'flex';
+        document.getElementById('pagination-info').textContent = `Showing ${start + 1}-${end} of ${totalItems}`;
+
+        let controlsHtml = `<button class="btn btn-secondary" id="page-prev"${UIState.currentPage <= 1 ? ' disabled' : ''}>« Prev</button>`;
+        const maxVisible = 5;
+        let startPage = Math.max(1, UIState.currentPage - Math.floor(maxVisible / 2));
+        let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+        if (endPage - startPage < maxVisible - 1) startPage = Math.max(1, endPage - maxVisible + 1);
+
+        for (let p = startPage; p <= endPage; p++) {
+          controlsHtml += `<button class="page-number${p === UIState.currentPage ? ' active' : ''}" data-page="${p}">${p}</button>`;
+        }
+        controlsHtml += `<button class="btn btn-secondary" id="page-next"${UIState.currentPage >= totalPages ? ' disabled' : ''}>Next »</button>`;
+        document.getElementById('pagination-controls').innerHTML = controlsHtml;
+      } else {
+        pagination.style.display = 'none';
+      }
+    }
+
+    function buildRow(c) {
+      const status = deriveStatus(c);
+      const badgeClass = status === 'Received' ? 'status-received' : status === 'Under Review' ? 'status-review' : 'status-executed';
+      const isPinned = pins.has(c.id);
+
+      let agingHtml = '';
+      if (status !== 'Executed') {
+        const refDate = status === 'Under Review' ? c.dateReviewed : c.dateReceived;
+        const days = daysSince(refDate);
+        if (days !== null) {
+          if (days >= AGING_CRITICAL_DAYS) agingHtml = `<span class="aging-badge aging-critical">${days}d</span>`;
+          else if (days >= AGING_WARN_DAYS) agingHtml = `<span class="aging-badge aging-warn">${days}d</span>`;
+        }
+      }
+
+      return `
+        <tr data-id="${c.id}"${isPinned ? ' class="row-pinned"' : ''}>
+          <td><button class="btn-pin${isPinned ? ' pinned' : ''}" data-id="${c.id}" title="${isPinned ? 'Unpin' : 'Pin to top'}">${isPinned ? '★' : '☆'}</button></td>
+          <td class="col-name" title="${escapeHtml(c.name)}">${escapeHtml(c.name)}</td>
+          <td>${escapeHtml(c.type)}</td>
+          <td>${escapeHtml(c.sponsor || '')}</td>
+          <td>${escapeHtml(c.pi || '')}</td>
+          <td>${escapeHtml(c.fasNumber || '')}</td>
+          <td>${formatDate(c.dateReceived)}</td>
+          <td>${formatDate(c.dateReviewed)}</td>
+          <td>${formatDate(c.dateExecuted)}</td>
+          <td><span class="status-badge ${badgeClass}">${status}</span>${agingHtml}</td>
+          <td class="col-actions"><div class="col-actions-body">
+            <button class="btn btn-icon btn-edit" data-id="${c.id}" title="Edit">✎</button>
+            <button class="btn btn-icon btn-delete" data-id="${c.id}" title="Delete">🗑</button>
+          </div></td>
+        </tr>`;
+    }
+
+    function applyFilters(list) {
+      return list.filter(c => {
+        if (UIState.searchQuery) {
+          const q = UIState.searchQuery.toLowerCase();
+          if (!c.name.toLowerCase().includes(q) && !(c.sponsor || '').toLowerCase().includes(q)) return false;
+        }
+        if (UIState.filterType && c.type !== UIState.filterType) return false;
+        if (UIState.filterStatus && deriveStatus(c) !== UIState.filterStatus) return false;
+        return true;
+      });
+    }
+
+    function applySort(list) {
+      const field = UIState.sortField;
+      const dir = UIState.sortDirection === 'asc' ? 1 : -1;
+      return [...list].sort((a, b) => {
+        let valA, valB;
+        if (field === 'status') {
+          const ORDER = { 'Received': 0, 'Under Review': 1, 'Executed': 2 };
+          valA = ORDER[deriveStatus(a)];
+          valB = ORDER[deriveStatus(b)];
+        } else if (field.startsWith('date')) {
+          valA = a[field] || '9999-12-31';
+          valB = b[field] || '9999-12-31';
+        } else {
+          valA = (a[field] || '').toLowerCase();
+          valB = (b[field] || '').toLowerCase();
+        }
+        if (valA < valB) return -1 * dir;
+        if (valA > valB) return 1 * dir;
+        return 0;
+      });
+    }
+
+    function updateSortIndicators() {
+      document.querySelectorAll('th.sortable').forEach(th => {
+        const icon = th.querySelector('.sort-icon');
+        if (th.dataset.sort === UIState.sortField) {
+          th.classList.add('sort-active');
+          icon.textContent = UIState.sortDirection === 'asc' ? ' ▲' : ' ▼';
+        } else {
+          th.classList.remove('sort-active');
+          icon.textContent = '';
+        }
+      });
+    }
+
+    /* ───────────── Modal ───────────── */
+    function openModal(contract) {
+      UIState.editingId = contract ? contract.id : null;
+      document.getElementById('modal-title').textContent = contract ? 'Edit Contract' : 'Add Contract';
+
+      document.getElementById('field-name').value = contract ? contract.name : '';
+      document.getElementById('field-type').value = contract ? contract.type : '';
+      document.getElementById('field-sponsor').value = contract ? (contract.sponsor || '') : '';
+      document.getElementById('field-pi').value = contract ? (contract.pi || '') : '';
+      document.getElementById('field-fas').value = contract ? (contract.fasNumber || '') : '';
+      document.getElementById('field-date-received').value = contract ? (contract.dateReceived || '') : '';
+      document.getElementById('field-date-reviewed').value = contract ? (contract.dateReviewed || '') : '';
+      document.getElementById('field-date-executed').value = contract ? (contract.dateExecuted || '') : '';
+      document.getElementById('field-notes').value = contract ? (contract.notes || '') : '';
+
+      updateStatusPreview();
+      validateDates();
+      document.getElementById('modal-overlay').classList.add('visible');
+      document.getElementById('field-name').focus();
+    }
+
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.remove('visible');
+      UIState.editingId = null;
+    }
+
+    function updateStatusPreview() {
+      const mockContract = {
+        dateReceived: document.getElementById('field-date-received').value,
+        dateReviewed: document.getElementById('field-date-reviewed').value,
+        dateExecuted: document.getElementById('field-date-executed').value
+      };
+      const status = deriveStatus(mockContract);
+      const badge = document.getElementById('field-status-preview');
+      badge.textContent = status;
+      badge.className = 'status-badge ' + (status === 'Received' ? 'status-received' : status === 'Under Review' ? 'status-review' : 'status-executed');
+    }
+
+    function validateDates() {
+      const received = document.getElementById('field-date-received').value;
+      const reviewed = document.getElementById('field-date-reviewed').value;
+      const executed = document.getElementById('field-date-executed').value;
+      const warnings = [];
+      if (received && reviewed && reviewed < received) warnings.push('Reviewed date is before Received date.');
+      if (received && executed && executed < received) warnings.push('Executed date is before Received date.');
+      if (reviewed && executed && executed < reviewed) warnings.push('Executed date is before Reviewed date.');
+
+      const warningEl = document.getElementById('date-warning');
+      if (warnings.length > 0) {
+        document.getElementById('date-warning-text').textContent = warnings.join(' ');
+        warningEl.classList.add('visible');
+      } else {
+        warningEl.classList.remove('visible');
+      }
+    }
+
+    function saveContract() {
+      const name = document.getElementById('field-name').value.trim();
+      const type = document.getElementById('field-type').value;
+      const sponsor = document.getElementById('field-sponsor').value.trim();
+
+      if (!name || !type || !sponsor) {
+        document.getElementById('contract-form').reportValidity();
+        return;
+      }
+
+      const data = {
+        name,
+        type,
+        sponsor,
+        pi: document.getElementById('field-pi').value.trim(),
+        fasNumber: document.getElementById('field-fas').value.trim(),
+        dateReceived: document.getElementById('field-date-received').value || '',
+        dateReviewed: document.getElementById('field-date-reviewed').value || '',
+        dateExecuted: document.getElementById('field-date-executed').value || '',
+        notes: document.getElementById('field-notes').value
+      };
+
+      if (UIState.editingId) {
+        window.updateContract(UIState.editingId, data);
+      } else {
+        window.addContract(data);
+      }
+
+      closeModal();
+    }
+
+    /* ───────────── Confirm Dialog ───────────── */
+    let confirmCallback = null;
+
+    function showConfirm(title, message, callback) {
+      document.getElementById('confirm-title').textContent = title;
+      document.getElementById('confirm-message').textContent = message;
+      confirmCallback = callback;
+      document.getElementById('confirm-overlay').classList.add('visible');
+    }
+
+    function closeConfirm() {
+      document.getElementById('confirm-overlay').classList.remove('visible');
+      confirmCallback = null;
+    }
+
+    /* ───────────── Event Handlers ───────────── */
+    document.getElementById('btn-theme').addEventListener('click', toggleTheme);
+    document.getElementById('btn-add').addEventListener('click', () => openModal(null));
+    document.getElementById('btn-save').addEventListener('click', e => { e.preventDefault(); saveContract(); });
+    document.getElementById('btn-cancel').addEventListener('click', closeModal);
+    document.getElementById('modal-close').addEventListener('click', closeModal);
+    document.getElementById('modal-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+
+    document.getElementById('contract-form').addEventListener('keydown', e => {
+      if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') { e.preventDefault(); saveContract(); }
+    });
+
+    ['field-date-received', 'field-date-reviewed', 'field-date-executed'].forEach(id => {
+      document.getElementById(id).addEventListener('change', () => { updateStatusPreview(); validateDates(); });
+    });
+
+    document.getElementById('contract-tbody').addEventListener('click', e => {
+      const pinBtn = e.target.closest('.btn-pin');
+      if (pinBtn) { togglePin(pinBtn.dataset.id); return; }
+
+      const btn = e.target.closest('button');
+      if (btn) {
+        const id = btn.dataset.id;
+        if (btn.classList.contains('btn-edit')) {
+          const contract = contracts.find(c => c.id === id);
+          if (contract) openModal(contract);
+        }
+        if (btn.classList.contains('btn-delete')) {
+          const contract = contracts.find(c => c.id === id);
+          if (contract) {
+            showConfirm('Delete Contract', `Are you sure you want to delete "${contract.name}"?`, () => window.deleteContract(id));
+          }
+        }
+        return;
+      }
+
+      const row = e.target.closest('tr');
+      if (row) {
+        const contract = contracts.find(c => c.id === row.dataset.id);
+        if (contract) openModal(contract);
+      }
+    });
+
+    document.getElementById('pagination-controls').addEventListener('click', e => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      if (btn.id === 'page-prev' && UIState.currentPage > 1) { UIState.currentPage--; render(); }
+      else if (btn.id === 'page-next') { UIState.currentPage++; render(); }
+      else if (btn.dataset.page) { UIState.currentPage = parseInt(btn.dataset.page); render(); }
+    });
+
+    document.getElementById('per-page-select').addEventListener('change', e => {
+      UIState.perPage = parseInt(e.target.value);
+      UIState.currentPage = 1;
+      localStorage.setItem(PAGING_KEY, UIState.perPage);
+      render();
+    });
+
+    document.querySelectorAll('th.sortable').forEach(th => {
+      th.addEventListener('click', () => {
+        const field = th.dataset.sort;
+        if (UIState.sortField === field) {
+          UIState.sortDirection = UIState.sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+          UIState.sortField = field;
+          UIState.sortDirection = 'asc';
+        }
+        render();
+      });
+    });
+
+    document.getElementById('search-input').addEventListener('input', e => {
+      UIState.searchQuery = e.target.value;
+      UIState.currentPage = 1;
+      render();
+    });
+
+    document.getElementById('filter-type').addEventListener('change', e => {
+      UIState.filterType = e.target.value;
+      UIState.currentPage = 1;
+      render();
+    });
+
+    document.getElementById('filter-status').addEventListener('change', e => {
+      UIState.filterStatus = e.target.value;
+      UIState.currentPage = 1;
+      render();
+    });
+
+    document.getElementById('confirm-cancel').addEventListener('click', closeConfirm);
+    document.getElementById('confirm-close').addEventListener('click', closeConfirm);
+    document.getElementById('confirm-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeConfirm(); });
+    document.getElementById('confirm-ok').addEventListener('click', () => { if (confirmCallback) confirmCallback(); closeConfirm(); });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        if (document.getElementById('confirm-overlay').classList.contains('visible')) closeConfirm();
+        else if (document.getElementById('modal-overlay').classList.contains('visible')) closeModal();
+      }
+    });
+
+    /* ───────────── Init ───────────── */
+    loadTheme();
+    loadPins();
+
+    try {
+      const savedPerPage = localStorage.getItem(PAGING_KEY);
+      if (savedPerPage) {
+        UIState.perPage = parseInt(savedPerPage);
+        document.getElementById('per-page-select').value = UIState.perPage;
+      }
+    } catch (e) {}
+  </script>
+</body>
+</html>
